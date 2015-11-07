@@ -1,0 +1,427 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="page-header">
+                <form class="form-inline">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="control-label">血氧动态图</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="control-label">查询时间范围</label>
+                    <input type="datetime" id="starttime">
+                    <span>到</span>
+                    <input type="datetime" id="endtime">
+                    <button id="data_query_btn" class="btn" type="button">查询</button>
+                </form>
+                #*脉率*##*
+                <div id="pulse_rate" class="highcharts"></div>
+                *##*饱和度*##*
+                <div id="saturation" class="hightcharts"></div>
+                *##*脉搏强度*##*
+                <div id="pulse_intensity" class="hightcharts"></div>*#
+                #*波形数据*#
+                <div id="waveform" class="hightcharts"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id='dialog-modal'></div>
+<link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/ >
+<script src="/js/jquery.datetimepicker.js"></script>
+<script src="/js/highcharts.js"></script>
+<script>
+    function dialog_Confirm(content) {
+        $("#dialog-modal").dialog({
+            height: 'auto',
+            modal: true,
+            title: '系统提示',
+            hide: 'slide',
+            buttons: {
+                '确定': function () {
+                    $(this).dialog("close");
+                }
+            },
+            open: function (event, ui) {
+                $(this).html("");
+                $(this).append("<div style='word-break:break-all'>" + content + "</div>");
+            }
+        });
+    }
+    function startTime(){
+        var d = new Date(),str = '';
+        str += d.getFullYear()+'/';
+        str  += d.getMonth() - 1+'/';
+        str  += d.getDate()+' ';
+        str += d.getHours()+':';
+        str  += d.getMinutes();
+        return str;
+    }
+    function endTime(){
+        var d = new Date(),str = '';
+        str += d.getFullYear()+'/';
+        str  += d.getMonth() + 1+'/';
+        str  += d.getDate()+' ';
+        str += d.getHours()+':';
+        str  += d.getMinutes();
+        return str;
+    }
+    function query(start,end){
+        var url = "/bloodoxygen/query";
+        $.ajax({
+            type : 'POST',
+            url : url,
+            dataType:'json',
+            timeout:60000,
+            data : {
+                'start':start,
+                'end':end
+            },
+            success : function(json) {
+                if(jQuery.isEmptyObject(json)){
+                    dialog_Confirm('获取数据失败!');
+                }
+                else{
+                    var pulse_rate = $("#pulse_rate").highcharts();
+                    var saturation = $("#saturation").highcharts();
+                    var pulse_intensity = $("#pulse_intensity").highcharts();
+                    var waveform = $("#waveform").highcharts();
+                    for(var metricKey in json){
+                        var j = 0;
+                        var categories = [];
+                        var data = [];
+                        if(metricKey=='pulse_rate'){
+                            $.each(json[metricKey],function(key,value){
+                                categories[j]=key;
+                                data[j]=value;
+                                j++;
+                            });
+                            pulse_rate.xAxis[0].setCategories(categories);
+                            pulse_rate.xAxis[0].update({
+                                tickInterval: (j-j%10)/10+1
+                            });
+                            pulse_rate.series[0].setData(data);
+                        }
+                        else if(metricKey=='saturation'){
+                            $.each(json[metricKey],function(key,value){
+                                categories[j]=key;
+                                data[j]=value;
+                                j++;
+                            });
+                            saturation.xAxis[0].setCategories(categories);
+                            saturation.xAxis[0].update({
+                                tickInterval: (j-j%10)/10+1
+                            });
+                            saturation.series[0].setData(data);
+                        }
+                        else if(metricKey=='pulse_intensity'){
+                            $.each(json[metricKey],function(key,value){
+                                categories[j]=key;
+                                data[j]=value;
+                                j++;
+                            });
+                            pulse_intensity.xAxis[0].setCategories(categories);
+                            pulse_intensity.xAxis[0].update({
+                                tickInterval: (j-j%10)/10+1
+                            });
+                            pulse_intensity.series[0].setData(data);
+                        }
+                        else if(metricKey=='waveform'){
+                            $.each(json[metricKey],function(key,value){
+                                categories[j]=key;
+                                data[j]=value;
+                                j++;
+                            });
+                            waveform.xAxis[0].setCategories(categories);
+                            waveform.xAxis[0].update({
+                                tickInterval: (j-j%10)/10+1
+                            });
+                            waveform.series[0].setData(data);
+                        }
+                    }
+                }
+            },
+            error : function() {
+                dialog_Confirm('请求失败!');
+            }
+        });
+    }
+    $(function () {
+        /*设置时间控件分钟的间隔，此处设置为10分钟*/
+        jQuery('#starttime').datetimepicker({step:10});
+        jQuery('#endtime').datetimepicker({step:10});
+
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            },
+            lang: {
+                resetZoom: "重置缩放"
+            }
+        });
+        /*$('#pulse_rate').highcharts({
+            chart: {
+                type: 'spline',
+                zoomType: "x",
+                height: 350
+            },
+            title: {
+                text: '脉率',
+                x: -20
+            },
+            xAxis: {
+                categories: [],
+            },
+            yAxis: {
+                title: {
+                    text: '脉率(有效范围0~255BPM)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                /!*鼠标浮在曲线上某个点时显示的内容*!/
+                formatter: function () {
+                    return '<b>' + this.series.name + '<b> '
+                            + this.x
+                            + '</b><br/> ' + this.y + '';
+
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 1.5,
+                    fillOpacity: 0.1,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 5
+                            }
+                        }
+                    },
+                    shadow: false
+                }
+            },
+            scrollbar: {
+                enabled: true
+            },
+            series: [{
+                name: '脉率',
+                data: [],
+                /!*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*!/
+                turboThreshold: 10800
+            }]
+        });
+        $('#saturation').highcharts({
+            chart: {
+                type: 'spline',
+                zoomType: "x",
+                height: 350
+            },
+            title: {
+                text: '饱和度',
+                x: -20
+            },
+            xAxis: {
+                categories: [],
+            },
+            yAxis: {
+                title: {
+                    text: '饱和度(有效范围0~100%)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                /!*鼠标浮在曲线上某个点时显示的内容*!/
+                formatter: function () {
+                    return '<b>' + this.series.name + '<b> '
+                            +  this.x
+                            + '</b><br/> ' + this.y + '';
+
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 1.5,
+                    fillOpacity: 0.1,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 5
+                            }
+                        }
+                    },
+                    shadow: false
+                }
+            },
+            scrollbar: {
+                enabled: true
+            },
+            series: [{
+                name: '饱和度',
+                data: [],
+                /!*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*!/
+                turboThreshold: 10800
+            }]
+        });
+        $('#pulse_intensity').highcharts({
+            chart: {
+                type: 'spline',
+                zoomType: "x",
+                height: 350
+            },
+            title: {
+                text: '脉搏强度',
+                x: -20
+            },
+            xAxis: {
+                categories: [],
+            },
+            yAxis: {
+                title: {
+                    text: '脉搏强度(有效值0~8,15为无效值)'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                /!*鼠标浮在曲线上某个点时显示的内容*!/
+                formatter: function () {
+                    return '<b>' + this.series.name + '<b> '
+                            +  this.x
+                            + '</b><br/> ' + this.y + '';
+
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 1.5,
+                    fillOpacity: 0.1,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 5
+                            }
+                        }
+                    },
+                    shadow: false
+                }
+            },
+            scrollbar: {
+                enabled: true
+            },
+            series: [{
+                name: '脉搏强度',
+                data: [],
+                /!*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*!/
+                turboThreshold: 10800
+            }]
+        });*/
+        $('#waveform').highcharts({
+            chart: {
+                type: 'spline',
+                zoomType: "x",
+                height: 350
+            },
+            title: {
+                text: '波形数据',
+                x: -20
+            },
+            xAxis: {
+                categories: [],
+            },
+            yAxis: {
+                title: {
+                    text: '波形数据'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                /*鼠标浮在曲线上某个点时显示的内容*/
+                formatter: function () {
+                    return '<b>' + this.series.name + '<b> '
+                            +  this.x
+                            + '</b><br/> ' + this.y + '';
+
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                spline: {
+                    lineWidth: 1.5,
+                    fillOpacity: 0.1,
+                    marker: {
+                        enabled: false,
+                        states: {
+                            hover: {
+                                enabled: true,
+                                radius: 5
+                            }
+                        }
+                    },
+                    shadow: false
+                }
+            },
+            scrollbar: {
+                enabled: true
+            },
+            series: [{
+                name: '波形数据',
+                data: [],
+                /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
+                turboThreshold: 10800
+            }]
+        });
+
+        query(startTime(),endTime());
+    });
+
+</script>
+<script type="text/javascript">
+    $('#data_query_btn').on('click', function () {
+        var start = $('#starttime').val();
+        var end = $('#endtime').val();
+        query(start,end);
+    });
+
+</script>

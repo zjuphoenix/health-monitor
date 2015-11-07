@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>健康信息类别</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id = "tbody">
+                    <tr>
+                        <td>心电</td>
+                        <td>
+                            <a href="/ecg/records">详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>血压</td>
+                        <td>
+                            <a href="/bloodpressure/records">详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>血糖</td>
+                        <td>
+                            <a href="/bloodsugar/records">详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>血氧</td>
+                        <td>
+                            <a href="/bloodoxygen/records">详情</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>血酮</td>
+                        <td>
+                            <a href="/bloodketone/records">详情</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

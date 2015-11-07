@@ -1,0 +1,14 @@
+<div class="container">
+    <h4 class="col-lg-6 col-lg-offset-5 col-sm-8 col-sm-offset-3 col-xs-8 col-xs-offset-2">用户注册</h4>
+    <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2" id="logindev">
+        <form class="form">
+            <label for="username" class="sr-only">用户名</label>
+            <input type="text" name="username" id="username" placeholder="用户名" class="form-control input-xlarge" required="" autofocus="">
+            <label for="password" class="sr-only">电话</label>
+            <input type="text" name="tel" id="tel" placeholder="电话" class="form-control input-xlarge" required="">
+            <label for="password" class="sr-only">密码</label>
+            <input type="password" name="password" id="password" placeholder="密码" class="form-control input-xlarge" required="">
+            <button class="btn btn-lg btn-primary btn-block" type="button" id="register">注册</button>
+        </form>
+    </div>
+</div> <!-- /container -->

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>远程家庭康复智能辅助诊断及预警软件</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A preview of the jQuery UI Bootstrap theme">
+    <meta name="author" content="Addy Osmani">
+
+    <!-- Le styles -->
+    <link type="text/css" href="/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="assets/css/fonts-awesome-ie7.min.css">
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" type="text/css" href="css/custom-theme/jquery.ui.1.10.0.ie.css"/>
+    <![endif]-->
+
+    #*<link href="/css/button.css" rel="stylesheet" type="text/css"/>*#
+
+    <link href="/css/docs.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="/css/flat-ui.css" rel="stylesheet" type="text/css"/>
+    #*<link href="/css/bootstrap-combined.min.css" rel="stylesheet" type="text/css"/>*#
+    <script src="/js/jquery.js" type="text/javascript"></script>
+    <script src="/js/jquery-ui.js" type="text/javascript"></script>
+    <script src="/js/jquery-1.9.0.min.js" type="text/javascript"></script>
+    <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/js/jquery-ui-1.10.0.custom.min.js" type="text/javascript"></script>
+    <script src="/js/reactjs/react-with-addons.js"></script>
+    <script src="/js/reactjs/react.js" type="text/javascript"></script>
+    <script src="/js/reactjs/JSXTransformer.js" type="text/javascript"></script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+
+<body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true">
+<!-- Navbar
+        ================================================== -->
+<nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/index">health-monitor</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    健康信息采集记录 <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="/ecg/records" target=_blank>心电</a></li>
+                    <li><a href="/bloodpressure/records" target=_blank>血压</a></li>
+                    <li><a href="/bloodsugar/records" target=_blank>血糖</a></li>
+                    <li><a href="/bloodoxygen/records" target=_blank>血氧</a></li>
+                    <li><a href="/bloodketone/records" target=_blank>血酮</a></li>
+                </ul>
+            </li>
+            <li><a href="/logout">注销</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- Header
+================================================== -->
+<header class="jumbotron subhead" id="overview">
+    <div class="container">
+        <h3>健康监护</h3>
+        <p class="lead">远程家庭康复智能辅助诊断及预警平台</p>
+    </div>
+</header>
+
+
+<div class="container">
+    $screen_content
+</div>
+
+<!-- Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <p>
+            浙江大学 &copy; 2015 Copyright.
+        </p>
+        <ul class="footer-links">
+            <li><a href="#">Blog</a></li>
+            <li class="muted">&middot;</li>
+            <li><a href="#">Issues</a></li>
+        </ul>
+    </div>
+</footer>
+<!-- Placed at the end of the document so the pages load faster -->
+
+</body>
+</html>

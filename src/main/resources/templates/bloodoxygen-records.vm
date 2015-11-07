@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="page-header">
+                <h6>
+                    血氧数据
+                </h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>脉率(有效范围0~255BPM)</th>
+                    <th>饱和度(有效范围0~100%)</th>
+                    <th>脉搏强度(有效值0~8,15为无效值)</th>
+                    <th>状况</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id = "tbody">
+                    #foreach($key in ${bloodoxygen.keySet()})
+                    <tr>
+                        <td>$key</td>
+                        <td>$bloodoxygen.get($key).pulse_rate</td>
+                        <td>$bloodoxygen.get($key).saturation</td>
+                        <td>$bloodoxygen.get($key).pulse_intensity</td>
+                        <th>正常</th>
+                        <td>
+                            <a href="/bloodoxygen/detail">详情</a>
+                        </td>
+                    </tr>
+                    #end
+                </tbody>
+            </table>
+            <div id="pagemanage">
+                <a href="#"><span>第一页</span></a>
+                <span>上一页</span>
+                <a href="#"><span>下一页</span></a>
+                <a href="#"><span>最后一页</span></a>
+            </div>
+        </div>
+    </div>
+</div>

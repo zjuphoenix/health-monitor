@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+
+            <div class="page-header">
+                <h6>
+                    监护记录
+                </h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>状况</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id = "tbody">
+                    #foreach($key in ${records.keySet()})
+                    <tr>
+                        <td>$key</td>
+                        <th>$records.get($key).status</th>
+                        <td>
+                            #*<a href="/category">详情</a>*#
+                            <a href="/records/analysis">分析结果</a>
+                        </td>
+                    </tr>
+                    #end
+                </tbody>
+            </table>
+            <div id="pagemanage">
+                <a href="#"><span>第一页</span></a>
+                <span>上一页</span>
+                <a href="#"><span>下一页</span></a>
+                <a href="#"><span>最后一页</span></a>
+            </div>
+        </div>
+    </div>
+</div>

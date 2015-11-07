@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs">
+    <li #if($active == "records") class="active" #end><a href="/bloodketone/records">检测记录</a></li>
+    <li #if($active == "detail") class="active" #end><a href="/bloodketone/detail">波形图</a></li>
+</ul>

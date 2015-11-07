@@ -1,0 +1,95 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <div class="page-header">
+                <h6>
+                    智能辅助诊断
+                </h6>
+            </div>
+        </div>
+        <div class="span2" style="height:500px;border:1px solid #666">
+            <h6>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;选择症状
+            </h6>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                心绞痛
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                胸闷
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                心慌
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                心悸
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                气短
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                头晕
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                呼吸困难
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                恶心
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                便秘
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                发热
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                呕吐
+            </label>
+            <label class="checkbox" for="checkbox1">
+                <input type="checkbox" value="" id="checkbox1">
+                腹胀
+            </label>
+        </div>
+        <div class="span6" style="height:500px;border:1px solid #666">
+            <h6>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;可能疾病
+            </h6>
+            <ul>
+                <li>
+                    <strong>
+                        心律失常
+                    </strong>
+                    <p>
+                        正常人的心律为窦性心律，节律均衡，频率为每分钟60～100次。如果心脏激动的起源窦房结或传导系统出现异常，就发生了心律失常。
+                    </p>
+                </li>
+                <li>
+                    <strong>
+                        窦性心律失常
+                    </strong>
+                    <p>
+                        窦性心率每分钟超过100次为窦性心动过速，常见于运动或精神紧张、发热、甲亢、贫血和心肌炎等。窦性心率每分钟低于60次为窦性心动过缓，常见于甲低、颅内高压、老年人和部分药物反应。
+                    </p>
+                </li>
+                <li>
+                    <strong>
+                        异位心动过速
+                    </strong>
+                    <p>
+                        分为阵发性和非阵发性两类，又分为室上性或室性心动过速，除频率快、节律不齐外，前者心电图形态多正常，后者QRS波宽大畸形，多见于器质性心脏病，非器质性心脏病也可出现。
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

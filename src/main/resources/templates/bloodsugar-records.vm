@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <!-- 导航栏-->
+            #set($active = "records")
+            #parse("bloodsugar-tab.vm")
+            <div class="page-header">
+                <h6>
+                    血糖数据
+                </h6>
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>血糖值(有效范围1.1-33.3mmol/L)</th>
+                    <th>状况</th>
+                </tr>
+                </thead>
+                <tbody id = "tbody">
+                    #foreach($key in ${bloodsugar.keySet()})
+                    <tr>
+                        <td>$key</td>
+                        <td>$bloodsugar.get($key)</td>
+                        <th>正常</th>
+                    </tr>
+                    #end
+                </tbody>
+            </table>
+            <div id="pagemanage">
+                <a href="#"><span>第一页</span></a>
+                <span>上一页</span>
+                <a href="#"><span>下一页</span></a>
+                <a href="#"><span>最后一页</span></a>
+            </div>
+        </div>
+    </div>
+</div>
