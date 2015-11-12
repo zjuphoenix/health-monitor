@@ -25,7 +25,7 @@ import javax.sql.DataSource;
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class )
 @EnableConfigurationProperties(DataSourceProperties.class)
 @EnableTransactionManagement
-/*@MapperScan("com.edu.zju.lab.health.monitor.dao")*/
+@MapperScan("com.edu.zju.lab.health.monitor.dao")
 public class DataBaseConfigurer {
     @Autowired
     private DataSourceProperties dataSourceProperties;
@@ -51,8 +51,7 @@ public class DataBaseConfigurer {
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
-        /*PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/orm/*.xml"));*/
+
         return sqlSessionFactoryBean.getObject();
     }
 
