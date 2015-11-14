@@ -1,29 +1,19 @@
 package com.edu.zju.lab.health.monitor.entity;
 
 /**
- * Created by Administrator on 2015/10/16.
+ * Created by MCH on 2015/11/13.
  */
-public class Ecg {
+public class BloodKetone {
     private int userID;
     private String timeStamp;
-    private int breath_rate;
-    private int heart_rate;
+    private float bloodKetone;
     private boolean status;
 
-    public int getBreath_rate() {
-        return breath_rate;
-    }
-
-    public void setBreath_rate(int breath_rate) {
-        this.breath_rate = breath_rate;
-    }
-
-    public int getHeart_rate() {
-        return heart_rate;
-    }
-
-    public void setHeart_rate(int heart_rate) {
-        this.heart_rate = heart_rate;
+    public BloodKetone(int userID, String timeStamp, float bloodKetone, boolean status){
+        this.userID = userID;
+        this.timeStamp = timeStamp;
+        this.bloodKetone = bloodKetone;
+        this.status = status;
     }
 
     public int getUserID() {
@@ -40,6 +30,14 @@ public class Ecg {
 
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public float getBloodKetone() {
+        return bloodKetone;
+    }
+
+    public void setBloodKetone(float bloodKetone) {
+        this.bloodKetone = bloodKetone;
     }
 
     public boolean isStatus() {

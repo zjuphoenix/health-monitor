@@ -4,9 +4,12 @@ package com.edu.zju.lab.health.monitor.entity;
  * Created by Administrator on 2015/10/16.
  */
 public class BloodOxygen {
+    private int userID;
+    private String timeStamp;
     private int pulse_rate;
     private int saturation;
     private int pulse_intensity;
+    private boolean status;
 
     public int getPulse_rate() {
         return pulse_rate;
@@ -30,5 +33,29 @@ public class BloodOxygen {
 
     public void setPulse_intensity(int pulse_intensity) {
         this.pulse_intensity = pulse_intensity;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

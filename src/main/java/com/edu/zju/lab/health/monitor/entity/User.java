@@ -4,6 +4,7 @@ package com.edu.zju.lab.health.monitor.entity;
  * Created by Administrator on 2015/10/14.
  */
 public class User {
+    private int id;
     private String username;
     private String gender;
     private String password;
@@ -40,5 +41,21 @@ public class User {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
