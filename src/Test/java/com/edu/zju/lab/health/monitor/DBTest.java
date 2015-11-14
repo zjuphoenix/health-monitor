@@ -10,6 +10,10 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.util.Calendar;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Created by MCH on 2015/11/13.
  */
@@ -21,6 +25,15 @@ public class DBTest {
     BloodKetoneMapper bloodKetoneMapper;
     @Test
     public void test() {
-    bloodKetoneMapper.insert(new BloodKetone(123, 765685654, (float) 2.3, false));
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
+//        for(int i = 0; i < 10; i++){
+//            bloodKetoneMapper.insert(new BloodKetone(123, calendar.getTime().getTime(), (float) ((random.nextInt(100)+6000)*0.0001), false));
+//            calendar.roll(Calendar.SECOND,10);
+//        }
+        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone();
+        for(BloodKetone bk : bloodKetoneList){
+            System.out.println(bk.getTimeStamp());
+        }
     }
 }

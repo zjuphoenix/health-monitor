@@ -9,6 +9,8 @@ public class BloodKetone {
     private float bloodKetone;
     private boolean status;
 
+    public BloodKetone(){};
+
     public BloodKetone(int userID, long timeStamp, float bloodKetone, boolean status){
         this.userID = userID;
         this.timeStamp = timeStamp;

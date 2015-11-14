@@ -1,8 +1,11 @@
 package com.edu.zju.lab.health.monitor.controller;
 
+import com.edu.zju.lab.health.monitor.dao.BloodKetoneMapper;
+import com.edu.zju.lab.health.monitor.entity.BloodKetone;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +22,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/bloodketone")
 public class BloodKetoneController {
+    @Autowired
+    BloodKetoneMapper bloodKetoneMapper;
     private Logger logger = LoggerFactory.getLogger(BloodKetoneController.class);
 
     @RequestMapping("/records")
@@ -29,14 +34,19 @@ public class BloodKetoneController {
                 return o1.toString().compareTo(o2.toString())*(-1);
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            calendar.roll(Calendar.SECOND,10);
-            res.put(s.format(date), (random.nextInt(100)+6000)*0.0001);
+        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone();
+        for(BloodKetone bk : bloodKetoneList){
+            Date date = new Date(bk.getTimeStamp());
+            res.put(s.format(date), (double) bk.getBloodKetone());
         }
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            calendar.roll(Calendar.SECOND,10);
+//            res.put(s.format(date), (random.nextInt(100)+6000)*0.0001);
+//        }
         return new ModelAndView("bloodketone-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodketone",res)
                 .build());
