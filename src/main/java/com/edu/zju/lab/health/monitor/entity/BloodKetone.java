@@ -5,11 +5,11 @@ package com.edu.zju.lab.health.monitor.entity;
  */
 public class BloodKetone {
     private int userID;
-    private String timeStamp;
+    private long timeStamp;
     private float bloodKetone;
     private boolean status;
 
-    public BloodKetone(int userID, String timeStamp, float bloodKetone, boolean status){
+    public BloodKetone(int userID, long timeStamp, float bloodKetone, boolean status){
         this.userID = userID;
         this.timeStamp = timeStamp;
         this.bloodKetone = bloodKetone;
@@ -24,11 +24,11 @@ public class BloodKetone {
         this.userID = userID;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

@@ -5,7 +5,7 @@ package com.edu.zju.lab.health.monitor.entity;
  */
 public class BloodPressure {
     private int userID;
-    private String timeStamp;
+    private long timeStamp;
     private int systolic_pressure;
     private int diastolic_pressure;
     private int mean_pressure;
@@ -52,11 +52,11 @@ public class BloodPressure {
         this.userID = userID;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

@@ -5,7 +5,7 @@ package com.edu.zju.lab.health.monitor.entity;
  */
 public class BloodOxygen {
     private int userID;
-    private String timeStamp;
+    private long timeStamp;
     private int pulse_rate;
     private int saturation;
     private int pulse_intensity;
@@ -43,11 +43,11 @@ public class BloodOxygen {
         this.userID = userID;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

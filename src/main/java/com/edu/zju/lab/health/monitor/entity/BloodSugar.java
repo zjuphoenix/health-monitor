@@ -5,14 +5,14 @@ package com.edu.zju.lab.health.monitor.entity;
  */
 public class BloodSugar {
     private int userID;
-    private String timeStamp;
+    private long timeStamp;
     private float bloodSugar;
     private boolean status;
 
-    public BloodSugar(int userID, String timeStamp, float bloodKetone, boolean status){
+    public BloodSugar(int userID, long timeStamp, float bloodSugar, boolean status){
         this.userID = userID;
         this.timeStamp = timeStamp;
-        this.bloodSugar = bloodKetone;
+        this.bloodSugar = bloodSugar;
         this.status = status;
     }
 
@@ -24,11 +24,11 @@ public class BloodSugar {
         this.userID = userID;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 

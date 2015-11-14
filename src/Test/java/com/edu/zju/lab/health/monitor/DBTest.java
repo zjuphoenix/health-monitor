@@ -21,6 +21,6 @@ public class DBTest {
     BloodKetoneMapper bloodKetoneMapper;
     @Test
     public void test() {
-    bloodKetoneMapper.insert(new BloodKetone(123, "765685654", (float) 2.3, false));
+    bloodKetoneMapper.insert(new BloodKetone(123, 765685654, (float) 2.3, false));
     }
 }

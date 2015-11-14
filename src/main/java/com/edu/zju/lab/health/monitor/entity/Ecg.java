@@ -5,7 +5,7 @@ package com.edu.zju.lab.health.monitor.entity;
  */
 public class Ecg {
     private int userID;
-    private String timeStamp;
+    private long timeStamp;
     private int breath_rate;
     private int heart_rate;
     private boolean status;
@@ -34,11 +34,11 @@ public class Ecg {
         this.userID = userID;
     }
 
-    public String getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
