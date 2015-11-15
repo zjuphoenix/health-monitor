@@ -40,7 +40,7 @@ public class BloodKetoneController {
         List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone();
         for(BloodKetone bk : bloodKetoneList){
             Date date = new Date(bk.getTimeStamp());
-            res.put(s.format(date), (double) bk.getBloodKetone());
+            res.put(s.format(date), bk.getBloodKetone());
         }
 //        for (int i = 0; i < 10; i++) {
 //            Date date = calendar.getTime();

@@ -1,9 +1,11 @@
 package com.edu.zju.lab.health.monitor.controller;
 
+import com.edu.zju.lab.health.monitor.dao.BloodOxygenMapper;
 import com.edu.zju.lab.health.monitor.entity.BloodOxygen;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/bloodoxygen")
 public class BloodOxygenController {
+    @Autowired
+    BloodOxygenMapper bloodOxygenMapper;
     private Logger logger = LoggerFactory.getLogger(BloodOxygenController.class);
 
     @RequestMapping("/records")
@@ -30,18 +34,25 @@ public class BloodOxygenController {
                 return o1.toString().compareTo(o2.toString())*(-1);
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            BloodOxygen bloodOxygen = new BloodOxygen();
-            bloodOxygen.setPulse_rate((random.nextInt(10)+80));
-            bloodOxygen.setSaturation((random.nextInt(3) + 95));
-            bloodOxygen.setPulse_intensity((random.nextInt(20) + 60));
-            res.put(s.format(date),bloodOxygen);
-            calendar.roll(Calendar.SECOND, 10);
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            BloodOxygen bloodOxygen = new BloodOxygen();
+//            bloodOxygen.setPulse_rate((random.nextInt(10)+80));
+//            bloodOxygen.setSaturation((random.nextInt(3) + 95));
+//            bloodOxygen.setPulse_intensity((random.nextInt(20) + 60));
+//            res.put(s.format(date),bloodOxygen);
+//            calendar.roll(Calendar.SECOND, 10);
+//        }
+
+        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygen();
+        for(BloodOxygen bo : bloodOxygenList){
+            Date date = new Date(bo.getTimeStamp());
+            res.put(s.format(date), bo);
         }
+
         return new ModelAndView("bloodoxygen-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodoxygen",res)
                 .build());

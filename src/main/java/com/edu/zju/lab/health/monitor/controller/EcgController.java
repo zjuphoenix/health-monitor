@@ -1,9 +1,11 @@
 package com.edu.zju.lab.health.monitor.controller;
 
+import com.edu.zju.lab.health.monitor.dao.EcgMapper;
 import com.edu.zju.lab.health.monitor.entity.Ecg;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/ecg")
 public class EcgController {
+    @Autowired
+    EcgMapper ecgMapper;
     private Logger logger = LoggerFactory.getLogger(EcgController.class);
 
     private short[][] readFileByBytes(String fileName) {
@@ -78,16 +82,22 @@ public class EcgController {
                 return o1.toString().compareTo(o2.toString())*(-1);
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            Ecg ecg = new Ecg();
-            ecg.setBreath_rate(random.nextInt(5)+15);
-            ecg.setHeart_rate(random.nextInt(10)+70);
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            Ecg ecg = new Ecg();
+//            ecg.setBreath_rate(random.nextInt(5)+15);
+//            ecg.setHeart_rate(random.nextInt(10)+70);
+//            res.put(s.format(date),ecg);
+//            calendar.roll(Calendar.SECOND, 10);
+//        }
+
+        List<Ecg> ecgList = ecgMapper.getEcg();
+        for(Ecg ecg : ecgList){
+            Date date = new Date(ecg.getTimeStamp());
             res.put(s.format(date),ecg);
-            calendar.roll(Calendar.SECOND, 10);
         }
         return new ModelAndView("ecg-records",new ImmutableMap.Builder<String, Object>()
                 .put("ecg",res)

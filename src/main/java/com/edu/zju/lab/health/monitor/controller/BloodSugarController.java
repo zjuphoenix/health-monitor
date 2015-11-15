@@ -1,8 +1,11 @@
 package com.edu.zju.lab.health.monitor.controller;
 
+import com.edu.zju.lab.health.monitor.dao.BloodSugarMapper;
+import com.edu.zju.lab.health.monitor.entity.BloodSugar;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +22,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/bloodsugar")
 public class BloodSugarController {
+    @Autowired
+    BloodSugarMapper bloodSugarMapper;
+
     private Logger logger = LoggerFactory.getLogger(BloodSugarController.class);
 
     @RequestMapping("/records")
@@ -29,13 +35,18 @@ public class BloodSugarController {
                 return o1.toString().compareTo(o2.toString())*(-1);
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            calendar.roll(Calendar.SECOND,10);
-            res.put(s.format(date), (random.nextInt(22)+39)*0.1);
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            calendar.roll(Calendar.SECOND,10);
+//            res.put(s.format(date), (random.nextInt(22)+39)*0.1);
+//        }
+        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugar();
+        for(BloodSugar bs : bloodSugarList){
+            Date date = new Date(bs.getTimeStamp());
+            res.put(s.format(date), bs.getBloodSugar());
         }
         return new ModelAndView("bloodsugar-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodsugar",res)
