@@ -1,9 +1,11 @@
 package com.edu.zju.lab.health.monitor.controller;
 
+import com.edu.zju.lab.health.monitor.dao.BloodPressureMapper;
 import com.edu.zju.lab.health.monitor.entity.BloodPressure;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/bloodpressure")
 public class BloodPressureController {
+    @Autowired
+    BloodPressureMapper bloodPressureMapper;
+
     private Logger logger = LoggerFactory.getLogger(BloodPressureController.class);
 
     @RequestMapping("/records")
@@ -30,19 +35,26 @@ public class BloodPressureController {
                 return o1.toString().compareTo(o2.toString())*(-1);
             }
         });
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            BloodPressure bloodPressure = new BloodPressure();
-            bloodPressure.setSystolic_pressure(random.nextInt(20)+100);
-            bloodPressure.setDiastolic_pressure(random.nextInt(20)+60);
-            bloodPressure.setMean_pressure(random.nextInt(20)+80);
-            bloodPressure.setPulse_rate(random.nextInt(10)+80);
-            res.put(s.format(date),bloodPressure);
-            calendar.roll(Calendar.SECOND, 10);
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            BloodPressure bloodPressure = new BloodPressure();
+//            bloodPressure.setSystolic_pressure(random.nextInt(20)+100);
+//            bloodPressure.setDiastolic_pressure(random.nextInt(20)+60);
+//            bloodPressure.setMean_pressure(random.nextInt(20)+80);
+//            bloodPressure.setPulse_rate(random.nextInt(10)+80);
+//            res.put(s.format(date),bloodPressure);
+//            calendar.roll(Calendar.SECOND, 10);
+//        }
+
+        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressure();
+        for(BloodPressure bp : bloodPressureList){
+            Date date = new Date(bp.getTimeStamp());
+            res.put(s.format(date), bp);
         }
+
         return new ModelAndView("bloodpressure-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodpressure",res)
                 .build());

@@ -11,6 +11,17 @@ public class BloodOxygen {
     private int pulse_intensity;
     private boolean status;
 
+    public BloodOxygen(){}
+
+    public BloodOxygen(int userID, long timeStamp, int pulse_rate, int saturation, int pulse_intensity, boolean status) {
+        this.userID = userID;
+        this.timeStamp = timeStamp;
+        this.pulse_rate = pulse_rate;
+        this.saturation = saturation;
+        this.pulse_intensity = pulse_intensity;
+        this.status = status;
+    }
+
     public int getPulse_rate() {
         return pulse_rate;
     }

@@ -12,6 +12,18 @@ public class BloodPressure {
     private int pulse_rate;
     private boolean status;
 
+    public BloodPressure(){}
+
+    public BloodPressure(int userID, long timeStamp, int systolic_pressure, int diastolic_pressure, int mean_pressure, int pulse_rate, boolean status) {
+        this.userID = userID;
+        this.timeStamp = timeStamp;
+        this.systolic_pressure = systolic_pressure;
+        this.diastolic_pressure = diastolic_pressure;
+        this.mean_pressure = mean_pressure;
+        this.pulse_rate = pulse_rate;
+        this.status = status;
+    }
+
     public int getSystolic_pressure() {
         return systolic_pressure;
     }

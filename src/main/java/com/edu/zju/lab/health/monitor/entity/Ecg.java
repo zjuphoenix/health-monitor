@@ -10,6 +10,16 @@ public class Ecg {
     private int heart_rate;
     private boolean status;
 
+    public Ecg(){}
+
+    public Ecg(int userID, long timeStamp, int breath_rate, int heart_rate, boolean status) {
+        this.userID = userID;
+        this.timeStamp = timeStamp;
+        this.breath_rate = breath_rate;
+        this.heart_rate = heart_rate;
+        this.status = status;
+    }
+
     public int getBreath_rate() {
         return breath_rate;
     }
