@@ -60,7 +60,6 @@ public class AppConfigurer {
 
         return viewResolver;
     }
-
     /*@Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(){
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();

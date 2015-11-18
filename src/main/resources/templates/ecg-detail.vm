@@ -67,12 +67,13 @@
             type : 'POST',
             url : url,
             dataType:'json',
-            timeout:60000,
+            timeout:600000000,
             data : {
                 'start':start,
                 'end':end
             },
             success : function(json) {
+                //alert(json);
                 if(jQuery.isEmptyObject(json)){
                     dialog_Confirm('获取数据失败!');
                 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -109,7 +110,7 @@ public class EcgController {
         return new ModelAndView("ecg-detail");
     }
 
-    @RequestMapping("/query")
+    @RequestMapping(value="/query",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Map<Long, Integer>> query(@RequestParam("start") String start,@RequestParam("end") String end) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
@@ -149,5 +150,6 @@ public class EcgController {
         res.put("second_lead",second_lead);
         res.put("third_lead",third_lead);
         return res;
+       // return "1223";
     }
 }
