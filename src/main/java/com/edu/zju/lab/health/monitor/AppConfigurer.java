@@ -60,14 +60,14 @@ public class AppConfigurer {
 
         return viewResolver;
     }
-    /*@Bean
+    @Bean
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter(){
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON);
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(mediaTypes);
         return mappingJackson2HttpMessageConverter;
-    }*/
+    }
 
     /*@Bean
     public EmbeddedServletContainerFactory servletContainer() {
