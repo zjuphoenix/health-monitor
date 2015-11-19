@@ -67,7 +67,7 @@
             type : 'POST',
             url : url,
             dataType:'json',
-            timeout:600000000,
+            timeout:60000,
             data : {
                 'start':start,
                 'end':end

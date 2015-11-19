@@ -78,21 +78,31 @@ public class BloodPressureController {
             logger.error("date parse exception", e);
         }
         Map<String, Map<String, Double>> res = new HashMap<>();
-        Map<String, Double> systolic_pressure = new HashMap<>();
-        Map<String, Double> diastolic_pressure = new HashMap<>();
-        Map<String, Double> mean_pressure = new HashMap<>();
-        Map<String, Double> pulse_rate = new HashMap<>();
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+        Map<String, Double> systolic_pressure = new TreeMap<>();
+        Map<String, Double> diastolic_pressure = new TreeMap<>();
+        Map<String, Double> mean_pressure = new TreeMap<>();
+        Map<String, Double> pulse_rate = new TreeMap<>();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            systolic_pressure.put(s.format(date),(double)(random.nextInt(20)+100));
-            diastolic_pressure.put(s.format(date),(double)(random.nextInt(20)+60));
-            mean_pressure.put(s.format(date),(double)(random.nextInt(20)+80));
-            pulse_rate.put(s.format(date),(double)(random.nextInt(10)+80));
-            calendar.add(Calendar.SECOND,10);
+
+        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressureByTime(starttime, endtime);
+        for(BloodPressure bp : bloodPressureList){
+            Date date = new Date(bp.getTimeStamp());
+            systolic_pressure.put(s.format(date), bp.getSystolic_pressure()*1.0);
+            diastolic_pressure.put(s.format(date), bp.getDiastolic_pressure()*1.0);
+            mean_pressure.put(s.format(date), bp.getMean_pressure()*1.0);
+            pulse_rate.put(s.format(date), bp.getPulse_rate()*1.0);
         }
+
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            systolic_pressure.put(s.format(date),(double)(random.nextInt(20)+100));
+//            diastolic_pressure.put(s.format(date),(double)(random.nextInt(20)+60));
+//            mean_pressure.put(s.format(date),(double)(random.nextInt(20)+80));
+//            pulse_rate.put(s.format(date),(double)(random.nextInt(10)+80));
+//            calendar.add(Calendar.SECOND,10);
+//        }
         res.put("systolic_pressure",systolic_pressure);
         res.put("diastolic_pressure",diastolic_pressure);
         res.put("mean_pressure",mean_pressure);

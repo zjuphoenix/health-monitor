@@ -70,15 +70,22 @@ public class BloodSugarController {
         } catch (ParseException e) {
             logger.error("date parse exception", e);
         }
-        Map<String, Double> res = new HashMap<>();
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+        Map<String, Double> res = new TreeMap<>();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            calendar.add(Calendar.SECOND,10);
-            res.put(s.format(date), (random.nextInt(22)+39)*0.1);
+
+        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugarByTime(starttime, endtime);
+        for(BloodSugar bs : bloodSugarList){
+            Date date = new Date(bs.getTimeStamp());
+            res.put(s.format(date), bs.getBloodSugar());
         }
+
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            calendar.add(Calendar.SECOND,10);
+//            res.put(s.format(date), (random.nextInt(22)+39)*0.1);
+//        }
         return res;
     }
 }

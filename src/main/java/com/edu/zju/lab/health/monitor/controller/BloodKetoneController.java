@@ -69,15 +69,22 @@ public class BloodKetoneController {
         } catch (ParseException e) {
             logger.error("date parse exception", e);
         }
-        Map<String, Double> res = new HashMap<>();
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+        Map<String, Double> res = new TreeMap<>();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            calendar.add(Calendar.SECOND,10);
-            res.put(s.format(date), (random.nextInt(100)+6000)*0.0001);
+
+        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetoneByTime(starttime,endtime);
+        for(BloodKetone bk : bloodKetoneList){
+            Date date = new Date(bk.getTimeStamp());
+            res.put(s.format(date), bk.getBloodKetone());
         }
+
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            calendar.add(Calendar.SECOND,10);
+//            res.put(s.format(date), (random.nextInt(100)+6000)*0.0001);
+//        }
         return res;
     }
 }

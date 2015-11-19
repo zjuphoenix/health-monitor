@@ -2,6 +2,7 @@ package com.edu.zju.lab.health.monitor.dao;
 
 import com.edu.zju.lab.health.monitor.entity.BloodSugar;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface BloodSugarMapper {
 
     @Select("SELECT * FROM bloodsugar order by timestamp")
     List<BloodSugar> getBloodSugar();
+
+    @Select("SELECT * FROM bloodsugar WHERE timestamp >= #{start_time} AND timestamp <= #{end_time} order by timestamp")
+    List<BloodSugar> getBloodSugarByTime(@Param("start_time")long startTime, @Param("end_time")long endTime);
 }

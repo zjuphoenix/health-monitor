@@ -78,19 +78,26 @@ public class BloodOxygenController {
         Map<String, Map<String, Double>> res = new HashMap<>();
         Map<String, Double> saturation = new HashMap<>();
         Map<String, Double> pulse_intensity = new HashMap<>();
-        Map<String, Double> waveform = new HashMap<>();
+        Map<String, Double> waveform = new TreeMap<>();
         Map<String, Double> pulse_rate = new HashMap<>();
-        Calendar calendar = Calendar.getInstance();
-        Random random = new Random();
+//        Calendar calendar = Calendar.getInstance();
+//        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (int i = 0; i < 10; i++) {
-            Date date = calendar.getTime();
-            /*pulse_rate.put(date.toString(),(double)(random.nextInt(10)+80));
-            saturation.put(date.toString(),(double)(random.nextInt(20)+100));
-            pulse_intensity.put(date.toString(),(double)(random.nextInt(20)+60));*/
-            waveform.put(s.format(date),(double)(random.nextInt(20)+80));
-            calendar.add(Calendar.SECOND,10);
+
+        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygenByTime(starttime, endtime);
+        for(BloodOxygen bo : bloodOxygenList){
+            Date date = new Date(bo.getTimeStamp());
+            waveform.put(s.format(date), bo.getSaturation()*1.0);
         }
+
+//        for (int i = 0; i < 10; i++) {
+//            Date date = calendar.getTime();
+//            /*pulse_rate.put(date.toString(),(double)(random.nextInt(10)+80));
+//            saturation.put(date.toString(),(double)(random.nextInt(20)+100));
+//            pulse_intensity.put(date.toString(),(double)(random.nextInt(20)+60));*/
+//            waveform.put(s.format(date),(double)(random.nextInt(20)+80));
+//            calendar.add(Calendar.SECOND,10);
+//        }
         /*res.put("pulse_rate",pulse_rate);
         res.put("saturation",saturation);
         res.put("pulse_intensity",pulse_intensity);*/

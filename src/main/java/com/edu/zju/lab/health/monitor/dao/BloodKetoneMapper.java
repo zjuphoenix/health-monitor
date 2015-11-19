@@ -16,4 +16,7 @@ public interface BloodKetoneMapper {
 
     @Select("SELECT * FROM bloodketone order by timestamp")
     List<BloodKetone> getBloodKetone();
+
+    @Select("SELECT * FROM bloodketone WHERE timestamp >= #{start_time} AND timestamp <= #{end_time} order by timestamp")
+    List<BloodKetone> getBloodKetoneByTime(@Param("start_time")long startTime, @Param("end_time")long endTime);
 }

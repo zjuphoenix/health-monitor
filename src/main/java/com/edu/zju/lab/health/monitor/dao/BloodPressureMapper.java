@@ -2,6 +2,7 @@ package com.edu.zju.lab.health.monitor.dao;
 
 import com.edu.zju.lab.health.monitor.entity.BloodPressure;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -15,4 +16,7 @@ public interface BloodPressureMapper {
 
     @Select("SELECT * FROM bloodpressure order by timestamp")
     List<BloodPressure> getBloodPressure();
+
+    @Select("SELECT * FROM bloodpressure WHERE timestamp >= #{start_time} AND timestamp <= #{end_time} order by timestamp")
+    List<BloodPressure> getBloodPressureByTime(@Param("start_time")long startTime, @Param("end_time")long endTime);
 }
