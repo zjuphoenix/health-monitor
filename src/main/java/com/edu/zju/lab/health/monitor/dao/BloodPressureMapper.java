@@ -14,8 +14,11 @@ public interface BloodPressureMapper {
     @Insert("INSERT INTO  bloodpressure values(#{userID},#{timeStamp},#{systolic_pressure},#{diastolic_pressure},#{mean_pressure},#{pulse_rate},#{status})")
     void insert( BloodPressure bloodPressure);
 
-    @Select("SELECT * FROM bloodpressure order by timestamp")
-    List<BloodPressure> getBloodPressure();
+    @Select("SELECT * FROM bloodpressure order by timestamp LIMIT #{offset},5")
+    List<BloodPressure> getBloodPressure(@Param("offset")int offset);
+
+    @Select("SELECT count(*) FROM bloodpressure")
+    long getBloodPressureCount();
 
     @Select("SELECT * FROM bloodpressure WHERE timestamp >= #{start_time} AND timestamp <= #{end_time} order by timestamp")
     List<BloodPressure> getBloodPressureByTime(@Param("start_time")long startTime, @Param("end_time")long endTime);

@@ -27,7 +27,7 @@ public class BloodKetoneController {
     private Logger logger = LoggerFactory.getLogger(BloodKetoneController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records() {
+    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, Double> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -37,7 +37,8 @@ public class BloodKetoneController {
 //        Calendar calendar = Calendar.getInstance();
 //        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone();
+        long pagecount = bloodKetoneMapper.getBloodKetoneCount();
+        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone(page*5);
         for(BloodKetone bk : bloodKetoneList){
             Date date = new Date(bk.getTimeStamp());
             res.put(s.format(date), bk.getBloodKetone());
@@ -49,6 +50,8 @@ public class BloodKetoneController {
 //        }
         return new ModelAndView("bloodketone-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodketone",res)
+                .put("page",page)
+                .put("pagecount", pagecount%5==0?pagecount/5:pagecount/5+1)
                 .build());
     }
 

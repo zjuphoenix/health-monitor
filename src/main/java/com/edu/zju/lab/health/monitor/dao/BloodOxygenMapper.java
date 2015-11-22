@@ -14,8 +14,11 @@ public interface BloodOxygenMapper {
     @Insert("INSERT INTO  bloodoxygen values(#{userID},#{timeStamp},#{pulse_rate},#{saturation},#{pulse_intensity},#{status})")
     void insert( BloodOxygen bloodOxygen);
 
-    @Select("SELECT * FROM bloodoxygen order by timestamp")
-    List<BloodOxygen> getBloodOxygen();
+    @Select("SELECT * FROM bloodoxygen order by timestamp LIMIT #{offset},5")
+    List<BloodOxygen> getBloodOxygen(@Param("offset")int offset);
+
+    @Select("SELECT count(*) FROM bloodoxygen")
+    long getBloodOxygenCount();
 
     @Select("SELECT * FROM bloodoxygen WHERE timestamp >= #{start_time} AND timestamp <= #{end_time} order by timestamp")
     List<BloodOxygen> getBloodOxygenByTime(@Param("start_time")long startTime, @Param("end_time")long endTime);

@@ -33,10 +33,21 @@
                 </tbody>
             </table>
             <div id="pagemanage">
-                <a href="#"><span>第一页</span></a>
-                <span>上一页</span>
-                <a href="#"><span>下一页</span></a>
-                <a href="#"><span>最后一页</span></a>
+                #set($prepage=$page - 1)
+                #set($nextpage=$page + 1)
+                <a href="/bloodoxygen/records?page=0"><span>第一页</span></a>
+                #if($page <= 0)
+                    <span>上一页</span>
+                #else
+                    <a href="/bloodoxygen/records?page=$prepage"><span> 上一页 </span></a>
+                #end
+                #if($page >= $pagecount - 1)
+                    <span>下一页</span>
+                #else
+                    <a href="/bloodoxygen/records?page=$nextpage"><span>下一页</span></a>
+                #end
+                #set($finalpage=$pagecount - 1)
+                <a href="/bloodoxygen/records?page=$finalpage"><span>最后一页</span></a>
             </div>
         </div>
     </div>

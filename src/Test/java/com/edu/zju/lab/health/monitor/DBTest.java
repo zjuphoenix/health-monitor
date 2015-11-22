@@ -50,7 +50,7 @@ public class DBTest {
 //        }
 
 
-        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone();
+        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone(0);
         for(BloodKetone bk : bloodKetoneList){
             System.out.println(bk.getBloodKetone());
         }

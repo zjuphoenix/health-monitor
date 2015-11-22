@@ -28,7 +28,7 @@ public class BloodPressureController {
     private Logger logger = LoggerFactory.getLogger(BloodPressureController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records() {
+    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, BloodPressure> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -49,7 +49,8 @@ public class BloodPressureController {
 //            calendar.roll(Calendar.SECOND, 10);
 //        }
 
-        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressure();
+        long pagecount = bloodPressureMapper.getBloodPressureCount();
+        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressure(page*5);
         for(BloodPressure bp : bloodPressureList){
             Date date = new Date(bp.getTimeStamp());
             res.put(s.format(date), bp);
@@ -57,6 +58,8 @@ public class BloodPressureController {
 
         return new ModelAndView("bloodpressure-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodpressure",res)
+                .put("page",page)
+                .put("pagecount", pagecount % 5 == 0 ? pagecount/5:pagecount/5+1)
                 .build());
     }
 
