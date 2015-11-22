@@ -14,8 +14,11 @@ public interface BloodSugarMapper {
     @Insert("INSERT INTO  bloodsugar values(#{userID},#{timeStamp},#{bloodSugar},#{status})")
     void insert( BloodSugar bloodSugar);
 
-    @Select("SELECT * FROM bloodsugar order by timestamp")
-    List<BloodSugar> getBloodSugar();
+    @Select("SELECT * FROM bloodsugar order by timestamp LIMIT #{offset},5")
+    List<BloodSugar> getBloodSugar(@Param("offset")int offset);
+
+    @Select("SELECT count(*) FROM bloodsugar")
+    long getBloodSugarCount();
 
     @Select("SELECT * FROM bloodsugar WHERE timestamp >= #{start_time} AND timestamp <= #{end_time} order by timestamp")
     List<BloodSugar> getBloodSugarByTime(@Param("start_time")long startTime, @Param("end_time")long endTime);

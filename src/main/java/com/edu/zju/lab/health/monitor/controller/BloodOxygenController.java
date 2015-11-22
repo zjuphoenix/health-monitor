@@ -27,7 +27,7 @@ public class BloodOxygenController {
     private Logger logger = LoggerFactory.getLogger(BloodOxygenController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records() {
+    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, BloodOxygen> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -47,7 +47,8 @@ public class BloodOxygenController {
 //            calendar.roll(Calendar.SECOND, 10);
 //        }
 
-        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygen();
+        long pagecount = bloodOxygenMapper.getBloodOxygenCount();
+        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygen(page*5);
         for(BloodOxygen bo : bloodOxygenList){
             Date date = new Date(bo.getTimeStamp());
             res.put(s.format(date), bo);
@@ -55,6 +56,8 @@ public class BloodOxygenController {
 
         return new ModelAndView("bloodoxygen-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodoxygen",res)
+                .put("page",page)
+                .put("pagecount", pagecount % 5 == 0 ? pagecount/5:pagecount/5+1)
                 .build());
     }
 

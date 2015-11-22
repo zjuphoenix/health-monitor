@@ -28,7 +28,7 @@ public class BloodSugarController {
     private Logger logger = LoggerFactory.getLogger(BloodSugarController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records() {
+    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, Double> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -43,13 +43,16 @@ public class BloodSugarController {
 //            calendar.roll(Calendar.SECOND,10);
 //            res.put(s.format(date), (random.nextInt(22)+39)*0.1);
 //        }
-        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugar();
+        long pagecount = bloodSugarMapper.getBloodSugarCount();
+        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugar(page*5);
         for(BloodSugar bs : bloodSugarList){
             Date date = new Date(bs.getTimeStamp());
             res.put(s.format(date), bs.getBloodSugar());
         }
         return new ModelAndView("bloodsugar-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodsugar",res)
+                .put("page",page)
+                .put("pagecount", pagecount%5==0?pagecount/5:pagecount/5+1)
                 .build());
     }
 
