@@ -9,13 +9,24 @@ public class EcgFileEntity {
     private int[] st;//3
     private int heartrate;
     private short[][] ecgs;//3*500
-    private short[] flag;//500
+    private byte[] flag;//500
 
-    public short[] getFlag() {
+    public EcgFileEntity(){}
+
+    public EcgFileEntity(long timeStamp, int breathingrate, int[] st, int heartrate, short[][] ecgs, byte[] flag) {
+        this.timeStamp = timeStamp;
+        this.breathingrate = breathingrate;
+        this.st = st;
+        this.heartrate = heartrate;
+        this.ecgs = ecgs;
+        this.flag = flag;
+    }
+
+    public byte[] getFlag() {
         return flag;
     }
 
-    public void setFlag(short[] flag) {
+    public void setFlag(byte[] flag) {
         this.flag = flag;
     }
 

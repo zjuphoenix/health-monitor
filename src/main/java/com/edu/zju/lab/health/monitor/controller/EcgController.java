@@ -1,7 +1,9 @@
 package com.edu.zju.lab.health.monitor.controller;
 
+import com.edu.zju.lab.health.monitor.dao.EcgFileDao;
 import com.edu.zju.lab.health.monitor.dao.EcgMapper;
 import com.edu.zju.lab.health.monitor.entity.Ecg;
+import com.edu.zju.lab.health.monitor.entity.EcgFileEntity;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,8 @@ import java.util.*;
 public class EcgController {
     @Autowired
     EcgMapper ecgMapper;
+    @Autowired
+    EcgFileDao ecgFileDao;
     private Logger logger = LoggerFactory.getLogger(EcgController.class);
 
     private short[][] readFileByBytes(String fileName) {
@@ -134,16 +138,28 @@ public class EcgController {
         Map<Long, Integer> first_lead = new TreeMap<>();
         Map<Long, Integer> second_lead = new TreeMap<>();
         Map<Long, Integer> third_lead = new TreeMap<>();
-        Calendar calendar = Calendar.getInstance();
-        Long base = calendar.getTime().getTime();
-        Random random = new Random();
-        short[][] ecg = readFileByBytes("/ecg-raw1.dat");
-        for (int i = 0; i < 5000; i++) {
-            base+=2;
-            first_lead.put(base, (int)ecg[0][i]);
-            second_lead.put(base,(int)ecg[1][i]);
-            third_lead.put(base, (int)ecg[2][i]);
+//        Calendar calendar = Calendar.getInstance();
+        Long base;
+//        Random random = new Random();
+//        short[][] ecg = readFileByBytes("/ecg-raw1.dat");
+        List<EcgFileEntity> ecgFileEntityList = ecgFileDao.queryEcg("123", start+":00", end+":00");
+//        for (int i = 0; i < 5000; i++) {
+//            base+=2;
+//            first_lead.put(base, (int)ecg[0][i]);
+//            second_lead.put(base,(int)ecg[1][i]);
+//            third_lead.put(base, (int)ecg[2][i]);
+//        }
+
+        for(EcgFileEntity efe:ecgFileEntityList){
+            base = efe.getTimeStamp();
+            for(int i = 0; i < 500; i++){
+                first_lead.put(base, (int)efe.getEcgs()[0][i]);
+                second_lead.put(base,(int)efe.getEcgs()[1][i]);
+                third_lead.put(base, (int)efe.getEcgs()[2][i]);
+                base += 2;
+            }
         }
+
         /*res.put("breath_rate",breath_rate);
         res.put("heart_rate",heart_rate);*/
         res.put("first_lead",first_lead);
