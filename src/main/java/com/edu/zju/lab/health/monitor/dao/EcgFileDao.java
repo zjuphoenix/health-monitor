@@ -21,7 +21,8 @@ public class EcgFileDao {
     private static Logger logger = LoggerFactory.getLogger(EcgFileDao.class);
 
     //文件路径使用classpath会有问题，暂时用全路径
-    private static final String rootPath = "D:\\git_project\\health-monitor\\src\\main\\resources\\";
+    //private static final String rootPath = "D:\\git_project\\health-monitor\\src\\main\\resources\\";
+    private static final String rootPath = "E:\\ECGFile\\";
     public List<EcgFileEntity> queryEcg(String surgery_no, String start, String end){
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
@@ -45,10 +46,11 @@ public class EcgFileDao {
         try {
             long endPointer = (sdf1.parse(end).getTime() - sdf1.parse(start).getTime())*3513/1000+19;
 //            String filename = rootPath+surgery_no+"_ecg_"+sdf2.format(sdf1.parse(start));
-            String filename = rootPath + surgery_no + "_ecg_2015-11-21.dat";
+            String filename = rootPath + surgery_no + "_ecg_2015-11-30";
 //            String filename = rootPath + "ecg-raw1.dat";
             File file=new File(filename);
             System.out.println(file.exists() + " " + file.length());
+            System.out.println(file.getAbsolutePath());
             RandomAccessFile raf = new RandomAccessFile(filename, "rw");
 //            InputStream fis=new FileInputStream(file);
             if(raf.length() < endPointer) endPointer = raf.length();

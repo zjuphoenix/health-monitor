@@ -12,6 +12,6 @@ public interface UserMapper {
     @Insert("INSERT INTO  user values(#{id},#{username},#{gender},#{password},#{tel}),#{mail}")
     void insert( User user);
 
-    @Select("SELECT * FROM users WHERE username = #{username} LIMIT 1")
+    @Select("SELECT * FROM user WHERE username = #{username} LIMIT 1")
     User getUserByName(String username);
 }
