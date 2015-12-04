@@ -18,6 +18,7 @@ public class HealthMonitorApp extends WebMvcConfigurerAdapter {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new UserSecurityInterceptor()).addPathPatterns("/ecg/**")
                 .addPathPatterns("/bloodketone/**").addPathPatterns("/bloodoxygen/**")
-                .addPathPatterns("/bloodpressure/**").addPathPatterns("/bloodsugar/**");
+                .addPathPatterns("/bloodpressure/**").addPathPatterns("/bloodsugar/**")
+                .addPathPatterns("/category/**");
     }
 }
