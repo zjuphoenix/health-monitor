@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -34,25 +35,25 @@ public class DBTest {
 
     @Test
     public void test() {
-//        Calendar calendar = Calendar.getInstance();
-//        Random random = new Random();
-//        int systolic_pressure, diastolic_pressure;
+        long time = new Date().getTime();
+        Random random = new Random();
+        int systolic_pressure, diastolic_pressure;
 //
-//        for(int i = 0; i < 10; i++){
-////            bloodKetoneMapper.insert(new BloodKetone(123, calendar.getTime().getTime(), (float) (0.1722+random.nextInt(861)*0.0001), false));
+        for(int i = 0; i < 10; i++){
+//            bloodKetoneMapper.insert(new BloodKetone(2, time, 0.1722+random.nextInt(861)*0.0001, false));
 //
-//            bloodOxygenMapper.insert(new BloodOxygen(123,calendar.getTime().getTime(), 60 + random.nextInt(195), 92+random.nextInt(8), random.nextInt(8), false));
-//            bloodPressureMapper.insert(new BloodPressure(123, calendar.getTime().getTime(), systolic_pressure = 90+random.nextInt(30), diastolic_pressure = 60+random.nextInt(30), (systolic_pressure+diastolic_pressure)/2, 16 + random.nextInt(10), false));
-//            bloodSugarMapper.insert(new BloodSugar(123, calendar.getTime().getTime(), (39+random.nextInt(72))*0.1, false));
-//            ecgMapper.insert(new Ecg(123, calendar.getTime().getTime(), 16 + random.nextInt(10), 60 + random.nextInt(60), false));
+//            bloodOxygenMapper.insert(new BloodOxygen(2, time, 120 + random.nextInt(75), 93+random.nextInt(6), 2+random.nextInt(4), false));
+//            bloodPressureMapper.insert(new BloodPressure(2, time, systolic_pressure = 100+random.nextInt(10), diastolic_pressure = 70+random.nextInt(10), (systolic_pressure+diastolic_pressure)/2, 18 + random.nextInt(6), false));
+//            bloodSugarMapper.insert(new BloodSugar(2, time, (69+random.nextInt(12))*0.1, false));
+            ecgMapper.insert(new Ecg(2, time, 19 + random.nextInt(4), 85 + random.nextInt(10), false));
 //
-//            calendar.roll(Calendar.SECOND, 10);
-//        }
-
-
-        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone(0);
-        for(BloodKetone bk : bloodKetoneList){
-            System.out.println(bk.getBloodKetone());
+            time+=10000;
         }
+
+
+//        List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone(0,123);
+//        for(BloodKetone bk : bloodKetoneList){
+//            System.out.println(bk.getBloodKetone());
+//        }
     }
 }

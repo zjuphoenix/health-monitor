@@ -2,6 +2,7 @@ package com.edu.zju.lab.health.monitor.controller;
 
 import com.edu.zju.lab.health.monitor.dao.BloodPressureMapper;
 import com.edu.zju.lab.health.monitor.entity.BloodPressure;
+import com.edu.zju.lab.health.monitor.entity.User;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,7 +30,7 @@ public class BloodPressureController {
     private Logger logger = LoggerFactory.getLogger(BloodPressureController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
+    public ModelAndView records(HttpServletRequest request, @RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, BloodPressure> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -49,8 +51,10 @@ public class BloodPressureController {
 //            calendar.roll(Calendar.SECOND, 10);
 //        }
 
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
         long pagecount = bloodPressureMapper.getBloodPressureCount();
-        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressure(page*5);
+        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressure(page*5, id);
         for(BloodPressure bp : bloodPressureList){
             Date date = new Date(bp.getTimeStamp());
             res.put(s.format(date), bp);
@@ -70,7 +74,7 @@ public class BloodPressureController {
 
     @RequestMapping("/query")
     @ResponseBody
-    public Map<String, Map<String, Double>> query(@RequestParam("start") String start,@RequestParam("end") String end) {
+    public Map<String, Map<String, Double>> query(HttpServletRequest request, @RequestParam("start") String start,@RequestParam("end") String end) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         long starttime = 0;
         long endtime = 0;
@@ -89,7 +93,9 @@ public class BloodPressureController {
 //        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressureByTime(starttime, endtime);
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
+        List<BloodPressure> bloodPressureList = bloodPressureMapper.getBloodPressureByTime(starttime, endtime, id);
         for(BloodPressure bp : bloodPressureList){
             Date date = new Date(bp.getTimeStamp());
             systolic_pressure.put(s.format(date), bp.getSystolic_pressure()*1.0);

@@ -4,6 +4,7 @@ import com.edu.zju.lab.health.monitor.dao.EcgFileDao;
 import com.edu.zju.lab.health.monitor.dao.EcgMapper;
 import com.edu.zju.lab.health.monitor.entity.Ecg;
 import com.edu.zju.lab.health.monitor.entity.EcgFileEntity;
+import com.edu.zju.lab.health.monitor.entity.User;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -80,7 +82,7 @@ public class EcgController {
     }
 
     @RequestMapping("/records")
-    public ModelAndView records() {
+    public ModelAndView records(HttpServletRequest request, @RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, Ecg> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -99,13 +101,18 @@ public class EcgController {
 //            calendar.roll(Calendar.SECOND, 10);
 //        }
 
-        List<Ecg> ecgList = ecgMapper.getEcg();
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
+        long pagecount = ecgMapper.getEcgCount();
+        List<Ecg> ecgList = ecgMapper.getEcg(page*5, id);
         for(Ecg ecg : ecgList){
             Date date = new Date(ecg.getTimeStamp());
             res.put(s.format(date),ecg);
         }
         return new ModelAndView("ecg-records",new ImmutableMap.Builder<String, Object>()
                 .put("ecg",res)
+                .put("page",page)
+                .put("pagecount", pagecount%5==0?pagecount/5:pagecount/5+1)
                 .build());
     }
 

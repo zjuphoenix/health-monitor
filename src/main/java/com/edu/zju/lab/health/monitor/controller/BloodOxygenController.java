@@ -2,6 +2,7 @@ package com.edu.zju.lab.health.monitor.controller;
 
 import com.edu.zju.lab.health.monitor.dao.BloodOxygenMapper;
 import com.edu.zju.lab.health.monitor.entity.BloodOxygen;
+import com.edu.zju.lab.health.monitor.entity.User;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,7 +29,7 @@ public class BloodOxygenController {
     private Logger logger = LoggerFactory.getLogger(BloodOxygenController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
+    public ModelAndView records(HttpServletRequest request, @RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, BloodOxygen> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -47,8 +49,10 @@ public class BloodOxygenController {
 //            calendar.roll(Calendar.SECOND, 10);
 //        }
 
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
         long pagecount = bloodOxygenMapper.getBloodOxygenCount();
-        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygen(page*5);
+        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygen(page*5, id);
         for(BloodOxygen bo : bloodOxygenList){
             Date date = new Date(bo.getTimeStamp());
             res.put(s.format(date), bo);
@@ -68,7 +72,7 @@ public class BloodOxygenController {
 
     @RequestMapping("/query")
     @ResponseBody
-    public Map<String, Map<String, Double>> query(@RequestParam("start") String start,@RequestParam("end") String end) {
+    public Map<String, Map<String, Double>> query(HttpServletRequest request, @RequestParam("start") String start,@RequestParam("end") String end) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         long starttime = 0;
         long endtime = 0;
@@ -87,7 +91,9 @@ public class BloodOxygenController {
 //        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygenByTime(starttime, endtime);
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
+        List<BloodOxygen> bloodOxygenList = bloodOxygenMapper.getBloodOxygenByTime(starttime, endtime, id);
         for(BloodOxygen bo : bloodOxygenList){
             Date date = new Date(bo.getTimeStamp());
             waveform.put(s.format(date), bo.getSaturation()*1.0);

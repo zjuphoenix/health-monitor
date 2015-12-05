@@ -2,6 +2,7 @@ package com.edu.zju.lab.health.monitor.controller;
 
 import com.edu.zju.lab.health.monitor.dao.BloodSugarMapper;
 import com.edu.zju.lab.health.monitor.entity.BloodSugar;
+import com.edu.zju.lab.health.monitor.entity.User;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -28,7 +30,7 @@ public class BloodSugarController {
     private Logger logger = LoggerFactory.getLogger(BloodSugarController.class);
 
     @RequestMapping("/records")
-    public ModelAndView records(@RequestParam(value = "page",required = false,defaultValue = "0") int page) {
+    public ModelAndView records(HttpServletRequest request, @RequestParam(value = "page",required = false,defaultValue = "0") int page) {
         Map<String, Double> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -43,8 +45,11 @@ public class BloodSugarController {
 //            calendar.roll(Calendar.SECOND,10);
 //            res.put(s.format(date), (random.nextInt(22)+39)*0.1);
 //        }
+
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
         long pagecount = bloodSugarMapper.getBloodSugarCount();
-        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugar(page*5);
+        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugar(page*5, id);
         for(BloodSugar bs : bloodSugarList){
             Date date = new Date(bs.getTimeStamp());
             res.put(s.format(date), bs.getBloodSugar());
@@ -63,7 +68,7 @@ public class BloodSugarController {
 
     @RequestMapping("/query")
     @ResponseBody
-    public Map<String, Double> query(@RequestParam("start") String start,@RequestParam("end") String end) {
+    public Map<String, Double> query(HttpServletRequest request, @RequestParam("start") String start,@RequestParam("end") String end) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         long starttime = 0;
         long endtime = 0;
@@ -78,7 +83,9 @@ public class BloodSugarController {
 //        Random random = new Random();
         SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugarByTime(starttime, endtime);
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
+        List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugarByTime(starttime, endtime, id);
         for(BloodSugar bs : bloodSugarList){
             Date date = new Date(bs.getTimeStamp());
             res.put(s.format(date), bs.getBloodSugar());
