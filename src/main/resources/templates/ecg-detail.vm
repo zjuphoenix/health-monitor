@@ -5,10 +5,13 @@
                 <form class="form-inline">
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label class="control-label">心电动态图</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <label class="control-label">日期</label>
+                    <input type="date" id="date" value="$time">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <label class="control-label">查询时间范围</label>
-                    <input type="datetime" id="starttime">
+                    <input type="time" id="starttime">
                     <span>到</span>
-                    <input type="datetime" id="endtime">
+                    <input type="time" id="endtime">
                     <button id="data_query_btn" class="btn" type="button">查询</button>
                 </form>
                 <div id="breath_rate" class="hightcharts"></div>
@@ -43,25 +46,8 @@
             }
         });
     }
-    function startTime(){
-        var d = new Date(),str = '';
-        str += d.getFullYear()+'/';
-        str  += d.getMonth() - 1+'/';
-        str  += d.getDate()+' ';
-        str += d.getHours()+':';
-        str  += d.getMinutes();
-        return str;
-    }
-    function endTime(){
-        var d = new Date(),str = '';
-        str += d.getFullYear()+'/';
-        str  += d.getMonth() + 1+'/';
-        str  += d.getDate()+' ';
-        str += d.getHours()+':';
-        str  += d.getMinutes();
-        return str;
-    }
-    function query(start,end){
+
+    function query(date,start,end){
         var url = "/ecg/query";
         $.ajax({
             type : 'POST',
@@ -69,11 +55,11 @@
             dataType:'json',
             timeout:60000,
             data : {
+                'date':date,
                 'start':start,
                 'end':end
             },
             success : function(json) {
-                //alert(json);
                 if(jQuery.isEmptyObject(json)){
                     dialog_Confirm('获取数据失败!');
                 }
@@ -158,8 +144,8 @@
     }
     $(function () {
         /*设置时间控件分钟的间隔，此处设置为10分钟*/
-        jQuery('#starttime').datetimepicker({step:10});
-        jQuery('#endtime').datetimepicker({step:10});
+//        jQuery('#starttime').datetimepicker({step:10});
+//        jQuery('#endtime').datetimepicker({step:10});
 
         Highcharts.setOptions({
             global: {
@@ -361,15 +347,16 @@
                 turboThreshold: 10800
             }]
         });
-        query(startTime(),endTime);
+        query( $('#date').val(),"00:00","23:59");
     });
 
 </script>
 <script type="text/javascript">
     $('#data_query_btn').on('click', function () {
+        var date = $('#date').val();
         var start = $('#starttime').val();
         var end = $('#endtime').val();
-        query(start,end);
+        query(date,start,end);
     });
 
 </script>

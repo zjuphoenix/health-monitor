@@ -13,8 +13,8 @@ import java.util.List;
 
 /**
  * Created by wuhaitao on 2015/11/14.
- * 文件格式:文件名为{surgery_no}_ecg_{yyyy-MM-dd}
- * 文件内容:起始时间yyyy-MM-dd HH:mm:ss+3513*n
+ * 文件格式:文件名为{userID}_ecg_{yyyy-MM-dd}
+ * 文件内容:起始时间yyyy/MM/dd HH:mm:ss+3513*n
  */
 @Repository
 public class EcgFileDao {
@@ -23,11 +23,11 @@ public class EcgFileDao {
     //文件路径使用classpath会有问题，暂时用全路径
     //private static final String rootPath = "D:\\git_project\\health-monitor\\src\\main\\resources\\";
     private static final String rootPath = "E:\\ECGFile\\";
-    public List<EcgFileEntity> queryEcg(String surgery_no, String start, String end){
+    public List<EcgFileEntity> queryEcg(String userID, String date, long start, long end){
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
+//        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");
 
-        List<EcgFileEntity> ecgFileEntityList = new ArrayList<EcgFileEntity>(){};
+        List<EcgFileEntity> ecgFileEntityList = new ArrayList<EcgFileEntity>();
 
         byte[] timestampBytes = new byte[19];
 
@@ -44,20 +44,30 @@ public class EcgFileDao {
         short[][] ecgs = new short[3][500];
 
         try {
-            long endPointer = (sdf1.parse(end).getTime() - sdf1.parse(start).getTime())*3513/1000+19;
-//            String filename = rootPath+surgery_no+"_ecg_"+sdf2.format(sdf1.parse(start));
-            String filename = rootPath + surgery_no + "_ecg_2015-11-30";
-//            String filename = rootPath + "ecg-raw1.dat";
+            String filename = rootPath + userID + "_ecg_"+date;
             File file=new File(filename);
             System.out.println(file.exists() + " " + file.length());
             System.out.println(file.getAbsolutePath());
             RandomAccessFile raf = new RandomAccessFile(filename, "rw");
+            raf.read(timestampBytes);
+            long timestamp = sdf1.parse(new String(timestampBytes)).getTime();
+            if(start > timestamp){
+                long startPointer = (start - timestamp)*3513/1000+19;
+                raf.seek(startPointer);
+                timestamp = start;
+            }
+            long endPointer = (end - timestamp)*3513/1000+raf.getFilePointer();
+//            String filename = rootPath+surgery_no+"_ecg_"+sdf2.format(sdf1.parse(start));
+//            String filename = rootPath + userID + "_ecg_2015-11-30";
+//            String filename = rootPath + "ecg-raw1.dat";
+//            File file=new File(filename);
+//            System.out.println(file.exists() + " " + file.length());
+//            System.out.println(file.getAbsolutePath());
+//            RandomAccessFile raf = new RandomAccessFile(filename, "rw");
 //            InputStream fis=new FileInputStream(file);
             if(raf.length() < endPointer) endPointer = raf.length();
 
-            raf.read(timestampBytes);
 
-            long timestamp = sdf1.parse(new String(timestampBytes)).getTime();
 
             while(raf.getFilePointer() < endPointer){
                 raf.read(head);

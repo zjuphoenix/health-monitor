@@ -25,7 +25,7 @@
                         <td>$ecg.get($key).heart_rate</td>
                         <th>正常</th>
                         <td>
-                            <a href="/ecg/detail">详情</a>
+                            <a href="/ecg/detail?time=$key">详情</a>
                         </td>
                     </tr>
                     #end

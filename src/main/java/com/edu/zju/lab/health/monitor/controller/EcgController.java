@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -117,19 +119,23 @@ public class EcgController {
     }
 
     @RequestMapping("/detail")
-     public ModelAndView detail() {
+     public ModelAndView detail(Model model, String time) {
+        model.addAttribute("time", time.substring(0,10));
         return new ModelAndView("ecg-detail");
     }
 
     @RequestMapping(value="/query",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Map<Long, Integer>> query(@RequestParam("start") String start,@RequestParam("end") String end) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+    public Map<String,Map<Long, Integer>> query(HttpServletRequest request, @RequestParam("date") String date,
+                                                @RequestParam("start") String start,@RequestParam("end") String end){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         long starttime = 0;
         long endtime = 0;
+        if(start.equals(""))start="00:00";
+        if(end.equals(""))end="23:59";
         try {
-            starttime = sdf.parse(start).getTime();
-            endtime = sdf.parse(end).getTime();
+            starttime = sdf.parse(date + " " + start).getTime();
+            endtime = sdf.parse(date + " " + end).getTime();
         } catch (ParseException e) {
             logger.error("date parse exception", e);
         }
@@ -149,13 +155,16 @@ public class EcgController {
         Long base;
 //        Random random = new Random();
 //        short[][] ecg = readFileByBytes("/ecg-raw1.dat");
-        List<EcgFileEntity> ecgFileEntityList = ecgFileDao.queryEcg("123", start+":00", end+":00");
+        User user = (User)request.getSession().getAttribute("user");
+        int id = user.getId();
+        List<EcgFileEntity> ecgFileEntityList = ecgFileDao.queryEcg(""+id, date, starttime, endtime);
 //        for (int i = 0; i < 5000; i++) {
 //            base+=2;
 //            first_lead.put(base, (int)ecg[0][i]);
 //            second_lead.put(base,(int)ecg[1][i]);
 //            third_lead.put(base, (int)ecg[2][i]);
 //        }
+        if(ecgFileEntityList.isEmpty())return res;
 
         for(EcgFileEntity efe:ecgFileEntityList){
             base = efe.getTimeStamp();
