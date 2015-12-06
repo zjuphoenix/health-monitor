@@ -39,6 +39,14 @@
                             <a href="/bloodketone/records">详情</a>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <a href="http://localhost:8888/start?surgery_no=$userID&host=10.13.81.181&port=60129" target="_blank" >连接设备</a>
+                        </td>
+                        <td>
+                            <a href="http://localhost:8888/stop?surgery_no=$userID&host=10.13.81.181&port=60129" target="_blank" >断开连接</a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

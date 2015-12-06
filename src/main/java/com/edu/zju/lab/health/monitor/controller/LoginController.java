@@ -27,6 +27,7 @@ public class LoginController {
     public ModelAndView index(HttpServletRequest request) {
         if(request.getSession().getAttribute("user")instanceof User) {
             ModelAndView mv = new ModelAndView();
+//            mv.addObject("userID",((User) request.getSession().getAttribute("user")).getId()+"");
             mv.setView(new RedirectView("category", false));
             return mv;
         }
@@ -50,6 +51,7 @@ public class LoginController {
             HttpSession session=request.getSession();
             session.setAttribute("user",userMapper.getUserByName(username));
             ModelAndView mv = new ModelAndView();
+//            mv.addObject("userID",((User)session.getAttribute("user")).getId()+"");
             mv.setView(new RedirectView("category", false));
             return mv;
         }
