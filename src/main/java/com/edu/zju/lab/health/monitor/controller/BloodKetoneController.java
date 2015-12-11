@@ -33,8 +33,7 @@ public class BloodKetoneController {
         Map<String, Double> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
-                return o1.toString().compareTo(o2.toString())*(-1);
-            }
+                return o1.toString().compareTo(o2.toString())*(-1); }
         });
 //        Calendar calendar = Calendar.getInstance();
 //        Random random = new Random();

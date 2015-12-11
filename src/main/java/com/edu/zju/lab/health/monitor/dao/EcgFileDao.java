@@ -21,8 +21,8 @@ public class EcgFileDao {
     private static Logger logger = LoggerFactory.getLogger(EcgFileDao.class);
 
     //文件路径使用classpath会有问题，暂时用全路径
-    //private static final String rootPath = "D:\\git_project\\health-monitor\\src\\main\\resources\\";
-    private static final String rootPath = "E:\\ECGFile\\";
+    private static final String rootPath = "/root/HealthMonitor/data/";
+//    private static final String rootPath = "E:\\ECGFile\\";
     public List<EcgFileEntity> queryEcg(String userID, String date, long start, long end){
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 //        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy/MM/dd");

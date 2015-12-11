@@ -1,3 +1,27 @@
+<script type="text/javascript">
+    var ipAddress,port;
+    function WopenStart(){
+        ipAddress=document.getElementById("ip").value;
+        port=document.getElementById("port").value;
+        var url = "/category/save";
+        $.ajax({
+            type: 'POST',
+            url: url,
+            dataType: 'json',
+            timeout: 60000,
+            data: {
+                'ip': ipAddress,
+                'port': port,
+            }
+        })
+        window.open('http://10.13.81.180:8888/start?surgery_no='+'$userID'+'&host='+ipAddress+'&port='+port,'_blank',width=600,height=400,top=100,right=100);
+    }
+    function WopenStop(){
+        ipAddress=document.getElementById("ip").value;
+        port=document.getElementById("port").value;
+        window.open('http://10.13.81.180:8888/stop?surgery_no='+'$userID'+'&host='+ipAddress+'&port='+port,'_blank',width=600,height=400,top=100,right=100);
+    }
+</script>
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span12">
@@ -41,10 +65,17 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="http://localhost:8888/start?surgery_no=$userID&host=10.13.81.181&port=60129" target="_blank" >连接设备</a>
+                            IP地址：
+                            <input  type="text"  name="IPAddress" id="ip" value=$ip />
+                            <br />
+                            端口：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input  type="text"  name="Port" id="port" value=$port />
+                            <!--a href="http://10.13.81.180:8888/start?surgery_no=$userID&host=10.13.81.181&port=60129" target="_blank" >连接设备</a-->
                         </td>
                         <td>
-                            <a href="http://localhost:8888/stop?surgery_no=$userID&host=10.13.81.181&port=60129" target="_blank" >断开连接</a>
+                            <input name="Start" type="button" onClick="WopenStart()" value="连接设备" / >
+                            <input name="Stop" type="button" onClick="WopenStop()" value="断开连接" / >
+                            <!--a href="http://10.13.81.180:8888/stop?surgery_no=$userID&host=10.13.81.181&port=60129" target="_blank" >断开连接</a-->
                         </td>
                     </tr>
                 </tbody>
