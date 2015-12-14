@@ -24,7 +24,11 @@
                         <td>$bloodoxygen.get($key).pulse_rate</td>
                         <td>$bloodoxygen.get($key).saturation</td>
                         <td>$bloodoxygen.get($key).pulse_intensity</td>
-                        <th>正常</th>
+                        #if($bloodoxygen.get($key).status == false)
+                            <th>正常</th>
+                        #else
+                            <th>异常</th>
+                        #end
                         <td>
                             <a href="/bloodoxygen/detail">详情</a>
                         </td>

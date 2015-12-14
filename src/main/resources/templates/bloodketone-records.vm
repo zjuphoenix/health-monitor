@@ -21,10 +21,21 @@
                     #foreach($key in ${bloodketone.keySet()})
                     <tr>
                         <td>$key</td>
-                        <td>$bloodketone.get($key)</td>
-                        <th>正常</th>
+                        <td>
+                            <!--script type="text/javascript" language="javascript">
+//                                var key = '$key';
+                                 var bloodKetone = $bloodketone.get($key).blood_Ketone;
+                                 document.write(bloodKetone);
+                            </script-->
+                            $bloodketone.get($key).blood_ketone
+                        </td>
+                        #if($bloodketone.get($key).status == false)
+                            <th>正常</th>
+                        #else
+                            <th>异常</th>
+                        #end
                     </tr>
-                    #end
+                   #end
                 </tbody>
             </table>
             <div id="pagemanage">

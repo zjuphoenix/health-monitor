@@ -6,15 +6,15 @@ package com.edu.zju.lab.health.monitor.entity;
 public class BloodKetone {
     private int userID;
     private long timeStamp;
-    private double blood_Ketone;
+    private double blood_ketone;
     private boolean status;
 
     public BloodKetone(){}
 
-    public BloodKetone(int userID, long timeStamp, double bloodKetone, boolean status){
+    public BloodKetone(int userID, long timeStamp, double blood_ketone, boolean status){
         this.userID = userID;
         this.timeStamp = timeStamp;
-        this.blood_Ketone = bloodKetone;
+        this.blood_ketone = blood_ketone;
         this.status = status;
     }
 
@@ -34,12 +34,12 @@ public class BloodKetone {
         this.timeStamp = timeStamp;
     }
 
-    public double getBloodKetone() {
-        return blood_Ketone;
+    public double getBlood_ketone() {
+        return blood_ketone;
     }
 
-    public void setBloodKetone(double bloodKetone) {
-        this.blood_Ketone = bloodKetone;
+    public void setBlood_ketone(double blood_ketone) {
+        this.blood_ketone = blood_ketone;
     }
 
     public boolean isStatus() {

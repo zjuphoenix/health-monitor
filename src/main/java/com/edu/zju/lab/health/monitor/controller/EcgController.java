@@ -168,11 +168,11 @@ public class EcgController {
 
         for(EcgFileEntity efe:ecgFileEntityList){
             base = efe.getTimeStamp();
-            for(int i = 0; i < 500; i++){
+            for(int i = 0; i < 500; i=i+10){
                 first_lead.put(base, (int)efe.getEcgs()[0][i]);
                 second_lead.put(base,(int)efe.getEcgs()[1][i]);
                 third_lead.put(base, (int)efe.getEcgs()[2][i]);
-                base += 2;
+                base += 20;
             }
         }
 

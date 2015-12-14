@@ -3,6 +3,8 @@ package com.edu.zju.lab.health.monitor.controller;
 import com.edu.zju.lab.health.monitor.dao.BloodKetoneMapper;
 import com.edu.zju.lab.health.monitor.entity.BloodKetone;
 import com.edu.zju.lab.health.monitor.entity.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +32,7 @@ public class BloodKetoneController {
 
     @RequestMapping("/records")
     public ModelAndView records(HttpServletRequest request, @RequestParam(value = "page",required = false,defaultValue = "0") int page) {
-        Map<String, Double> res = new TreeMap<>(new Comparator() {
+        Map<String, BloodKetone> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return o1.toString().compareTo(o2.toString())*(-1); }
@@ -44,14 +46,21 @@ public class BloodKetoneController {
         List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetone(page*5,id);
         for(BloodKetone bk : bloodKetoneList){
             Date date = new Date(bk.getTimeStamp());
-            res.put(s.format(date), bk.getBloodKetone());
+            res.put(s.format(date), bk);
         }
 //        for (int i = 0; i < 10; i++) {
 //            Date date = calendar.getTime();
 //            calendar.roll(Calendar.SECOND,10);
 //            res.put(s.format(date), (random.nextInt(100)+6000)*0.0001);
 //        }
-        return new ModelAndView("bloodketone-records",new ImmutableMap.Builder<String, Object>()
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        String result = "";
+//        try {
+//            result =objectMapper.writeValueAsString(res);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        }
+        return new ModelAndView("bloodketone-records", new ImmutableMap.Builder<String, Object>()
                 .put("bloodketone",res)
                 .put("page",page)
                 .put("pagecount", pagecount%5==0?pagecount/5:pagecount/5+1)
@@ -85,7 +94,7 @@ public class BloodKetoneController {
         List<BloodKetone> bloodKetoneList = bloodKetoneMapper.getBloodKetoneByTime(starttime,endtime,id);
         for(BloodKetone bk : bloodKetoneList){
             Date date = new Date(bk.getTimeStamp());
-            res.put(s.format(date), bk.getBloodKetone());
+            res.put(s.format(date), bk.getBlood_ketone());
         }
 
 //        for (int i = 0; i < 10; i++) {

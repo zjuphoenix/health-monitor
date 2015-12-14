@@ -6,15 +6,15 @@ package com.edu.zju.lab.health.monitor.entity;
 public class BloodSugar {
     private int userID;
     private long timeStamp;
-    private double blood_Sugar;
+    private double blood_sugar;
     private boolean status;
 
     public BloodSugar(){}
 
-    public BloodSugar(int userID, long timeStamp, double bloodSugar, boolean status){
+    public BloodSugar(int userID, long timeStamp, double blood_sugar, boolean status){
         this.userID = userID;
         this.timeStamp = timeStamp;
-        this.blood_Sugar = bloodSugar;
+        this.blood_sugar = blood_sugar;
         this.status = status;
     }
 
@@ -34,12 +34,12 @@ public class BloodSugar {
         this.timeStamp = timeStamp;
     }
 
-    public double getBloodSugar() {
-        return blood_Sugar;
+    public double getBlood_sugar() {
+        return blood_sugar;
     }
 
-    public void setBloodSugar(double bloodSugar) {
-        this.blood_Sugar = bloodSugar;
+    public void setBlood_sugar(double blood_sugar) {
+        this.blood_sugar = blood_sugar;
     }
 
     public boolean isStatus() {

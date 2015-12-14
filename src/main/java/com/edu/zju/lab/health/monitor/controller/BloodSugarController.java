@@ -31,7 +31,7 @@ public class BloodSugarController {
 
     @RequestMapping("/records")
     public ModelAndView records(HttpServletRequest request, @RequestParam(value = "page",required = false,defaultValue = "0") int page) {
-        Map<String, Double> res = new TreeMap<>(new Comparator() {
+        Map<String, BloodSugar> res = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
                 return o1.toString().compareTo(o2.toString())*(-1);
@@ -52,7 +52,7 @@ public class BloodSugarController {
         List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugar(page*5, id);
         for(BloodSugar bs : bloodSugarList){
             Date date = new Date(bs.getTimeStamp());
-            res.put(s.format(date), bs.getBloodSugar());
+            res.put(s.format(date), bs);
         }
         return new ModelAndView("bloodsugar-records",new ImmutableMap.Builder<String, Object>()
                 .put("bloodsugar",res)
@@ -88,7 +88,7 @@ public class BloodSugarController {
         List<BloodSugar> bloodSugarList = bloodSugarMapper.getBloodSugarByTime(starttime, endtime, id);
         for(BloodSugar bs : bloodSugarList){
             Date date = new Date(bs.getTimeStamp());
-            res.put(s.format(date), bs.getBloodSugar());
+            res.put(s.format(date), bs.getBlood_sugar());
         }
 
 //        for (int i = 0; i < 10; i++) {

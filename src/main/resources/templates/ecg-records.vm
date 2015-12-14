@@ -23,7 +23,11 @@
                         <td>$key</td>
                         <td>$ecg.get($key).breath_rate</td>
                         <td>$ecg.get($key).heart_rate</td>
-                        <th>正常</th>
+                        #if($ecg.get($key).status == false)
+                            <th>正常</th>
+                        #else
+                            <th>异常</th>
+                        #end
                         <td>
                             <a href="/ecg/detail?time=$key">详情</a>
                         </td>

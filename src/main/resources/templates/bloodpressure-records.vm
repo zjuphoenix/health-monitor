@@ -28,7 +28,11 @@
                         <td>$bloodpressure.get($key).diastolic_pressure</td>
                         <td>$bloodpressure.get($key).mean_pressure</td>
                         <td>$bloodpressure.get($key).pulse_rate</td>
-                        <th>正常</th>
+                        #if($bloodpressure.get($key).status == false)
+                            <th>正常</th>
+                        #else
+                            <th>异常</th>
+                        #end
                     </tr>
                     #end
                 </tbody>

@@ -26,7 +26,7 @@
 <div id='dialog-modal'></div>
 <link rel="stylesheet" type="text/css" href="/css/jquery.datetimepicker.css"/ >
 <script src="/js/jquery.datetimepicker.js"></script>
-<script src="/js/highcharts.js"></script>
+<script src="/js/highstock.js"></script>
 <script src="/js/dateformat.js"></script>
 <script>
     function dialog_Confirm(content) {
@@ -100,39 +100,288 @@
                         }
                         else if(metricKey=='first_lead'){
                             $.each(json[metricKey],function(key,value){
-                                categories[j]=getSmpFormatDateByLong(Number(key),true);
-                                data[j]=value;
+                                data[j] = new Array();
+//                                categories[j]=getSmpFormatDateByLong(Number(key),true);
+                                data[j][0]=key;
+                                data[j][1]=value;
                                 j++;
                             });
-                            first_lead.xAxis[0].setCategories(categories);
-                            first_lead.xAxis[0].update({
-                                tickInterval: (j-j%10)/10+1
+//                            first_lead.xAxis[0].setCategories(categories);
+//                            first_lead.xAxis[0].update({
+//                                tickInterval: (j-j%10)/10+1
+//                            });
+//                            first_lead.series[0].setData(data);
+                            $('#first_lead').highcharts('StockChart',{
+                                rangeSelector : {
+                                    buttons: [{
+                                        type: 'second',
+                                        count: 10,
+                                        text: '10s'
+                                    }, {
+                                        type: 'second',
+                                        count: 30,
+                                        text: '30s'
+                                    }, {
+                                        type: 'minute',
+                                        count: 1,
+                                        text: '1m'
+                                    }, {
+                                        type: 'all',
+                                        text: 'All'
+                                    }],
+                                    selected : 0
+                                },
+                                chart: {
+                                    type: 'spline',
+                                    zoomType: "x",
+                                    height: 350
+                                },
+                                title: {
+                                    text: '一导联',
+                                    x: -20
+                                },
+                                yAxis: {
+                                    title: {
+                                    text: '一导联'
+                                    },
+                                    plotLines: [{
+                                        value: 0,
+                                        width: 1,
+                                        color: '#808080'
+                                    }]
+                                },
+
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'right',
+                                    verticalAlign: 'middle',
+                                    borderWidth: 0
+                                },
+                                plotOptions: {
+                                    spline: {
+                                        lineWidth: 1.5,
+                                        fillOpacity: 0.1,
+                                        marker: {
+                                            enabled: false,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    radius: 5
+                                                }
+                                            }
+                                        },
+                                        shadow: false
+                                    }
+                                },
+                                scrollbar: {
+                                    enabled: true
+                                },
+                                series: [{
+                                    name: '一导联',
+                                    data: data,
+                                    /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
+                                    //turboThreshold: 10800
+                                }],
+                                tooltip: {
+                                    /*鼠标浮在曲线上某个点时显示的内容*/
+                                    formatter: function () {
+                                        return '<b> ' + Highcharts.dateFormat('%A, %b %e, %H:%M:%S', this.x)
+                                                + '</b><br/> ' + '一导联' +' : '+ this.y;
+
+                                    },
+                                    valueDecimals: 0,
+                                },
                             });
-                            first_lead.series[0].setData(data);
                         }
                         else if(metricKey=='second_lead'){
                             $.each(json[metricKey],function(key,value){
-                                categories[j]=getSmpFormatDateByLong(Number(key),true);
-                                data[j]=value;
+                                data[j] = new Array();
+//                                categories[j]=getSmpFormatDateByLong(Number(key),true);
+                                data[j][0]=key;
+                                data[j][1]=value;
                                 j++;
                             });
-                            second_lead.xAxis[0].setCategories(categories);
-                            second_lead.xAxis[0].update({
-                                tickInterval: (j-j%10)/10+1
+//                            second_lead.xAxis[0].setCategories(categories);
+//                            second_lead.xAxis[0].update({
+//                                tickInterval: (j-j%10)/10+1
+//                            });
+//                            second_lead.series[0].setData(data);
+                            $('#second_lead').highcharts('StockChart',{
+                                rangeSelector : {
+                                    buttons: [{
+                                        type: 'second',
+                                        count: 10,
+                                        text: '10s'
+                                    }, {
+                                        type: 'second',
+                                        count: 30,
+                                        text: '30s'
+                                    }, {
+                                        type: 'minute',
+                                        count: 1,
+                                        text: '1m'
+                                    }, {
+                                        type: 'all',
+                                        text: 'All'
+                                    }],
+                                    selected : 0
+                                },
+                                chart: {
+                                    type: 'spline',
+                                    zoomType: "x",
+                                    height: 350
+                                },
+                                title: {
+                                    text: '二导联',
+                                    x: -20
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: '二导联'
+                                    },
+                                    plotLines: [{
+                                        value: 0,
+                                        width: 1,
+                                        color: '#808080'
+                                    }]
+                                },
+
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'right',
+                                    verticalAlign: 'middle',
+                                    borderWidth: 0
+                                },
+                                plotOptions: {
+                                    spline: {
+                                        lineWidth: 1.5,
+                                        fillOpacity: 0.1,
+                                        marker: {
+                                            enabled: false,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    radius: 5
+                                                }
+                                            }
+                                        },
+                                        shadow: false
+                                    }
+                                },
+                                scrollbar: {
+                                    enabled: true
+                                },
+                                series: [{
+                                    name: '二导联',
+                                    data: data,
+                                    /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
+                                    //turboThreshold: 10800
+                                }],
+                                tooltip: {
+                                    /*鼠标浮在曲线上某个点时显示的内容*/
+                                    formatter: function () {
+                                        return '<b> ' + Highcharts.dateFormat('%A, %b %e, %H:%M:%S', this.x)
+                                                + '</b><br/> ' + '二导联' +' : '+ this.y;
+
+                                    },
+                                    valueDecimals: 0,
+                                },
                             });
-                            second_lead.series[0].setData(data);
                         }
                         else if(metricKey=='third_lead'){
                             $.each(json[metricKey],function(key,value){
-                                categories[j]=getSmpFormatDateByLong(Number(key),true);
-                                data[j]=value;
+                                data[j] = new Array();
+//                                categories[j]=getSmpFormatDateByLong(Number(key),true);
+                                data[j][0]=key;
+                                data[j][1]=value;
                                 j++;
                             });
-                            third_lead.xAxis[0].setCategories(categories);
-                            third_lead.xAxis[0].update({
-                                tickInterval: (j-j%10)/10+1
+//                            third_lead.xAxis[0].setCategories(categories);
+//                            third_lead.xAxis[0].update({
+//                                tickInterval: (j-j%10)/10+1
+//                            });
+//                            third_lead.series[0].setData(data);
+                            $('#third_lead').highcharts('StockChart',{
+                                rangeSelector : {
+                                    buttons: [{
+                                        type: 'second',
+                                        count: 10,
+                                        text: '10s'
+                                    }, {
+                                        type: 'second',
+                                        count: 30,
+                                        text: '30s'
+                                    }, {
+                                        type: 'minute',
+                                        count: 1,
+                                        text: '1m'
+                                    }, {
+                                        type: 'all',
+                                        text: 'All'
+                                    }],
+                                    selected : 0
+                                },
+                                chart: {
+                                    type: 'spline',
+                                    zoomType: "x",
+                                    height: 350
+                                },
+                                title: {
+                                    text: '三导联',
+                                    x: -20
+                                },
+                                yAxis: {
+                                    title: {
+                                        text: '三导联'
+                                    },
+                                    plotLines: [{
+                                        value: 0,
+                                        width: 1,
+                                        color: '#808080'
+                                    }]
+                                },
+
+                                legend: {
+                                    layout: 'vertical',
+                                    align: 'right',
+                                    verticalAlign: 'middle',
+                                    borderWidth: 0
+                                },
+                                plotOptions: {
+                                    spline: {
+                                        lineWidth: 1.5,
+                                        fillOpacity: 0.1,
+                                        marker: {
+                                            enabled: false,
+                                            states: {
+                                                hover: {
+                                                    enabled: true,
+                                                    radius: 5
+                                                }
+                                            }
+                                        },
+                                        shadow: false
+                                    }
+                                },
+                                scrollbar: {
+                                    enabled: true
+                                },
+                                series: [{
+                                    name: '三导联',
+                                    data: data,
+                                    /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
+                                    //turboThreshold: 10800
+                                }],
+                                tooltip: {
+                                    /*鼠标浮在曲线上某个点时显示的内容*/
+                                    formatter: function () {
+                                        return '<b> ' + Highcharts.dateFormat('%A, %b %e, %H:%M:%S', this.x)
+                                                + '</b><br/> ' + '三导联' +' : '+ this.y;
+
+                                    },
+                                    valueDecimals: 0,
+                                },
                             });
-                            third_lead.series[0].setData(data);
                         }
                     }
                 }
@@ -143,210 +392,6 @@
         });
     }
     $(function () {
-        /*设置时间控件分钟的间隔，此处设置为10分钟*/
-//        jQuery('#starttime').datetimepicker({step:10});
-//        jQuery('#endtime').datetimepicker({step:10});
-
-        Highcharts.setOptions({
-            global: {
-                useUTC: false
-            },
-            lang: {
-                resetZoom: "重置缩放"
-            }
-        });
-        $('#first_lead').highcharts({
-            chart: {
-                type: 'spline',
-                zoomType: "x",
-                height: 350
-            },
-            title: {
-                text: '一导联',
-                x: -20
-            },
-            xAxis: {
-                categories: [],
-            },
-            yAxis: {
-                title: {
-                    text: '一导联'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                /*鼠标浮在曲线上某个点时显示的内容*/
-                formatter: function () {
-                    return '<b>' + this.series.name + '<b> '
-                            +  this.x
-                            + '</b><br/> ' + this.y + '';
-
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            plotOptions: {
-                spline: {
-                    lineWidth: 1.5,
-                    fillOpacity: 0.1,
-                    marker: {
-                        enabled: false,
-                        states: {
-                            hover: {
-                                enabled: true,
-                                radius: 5
-                            }
-                        }
-                    },
-                    shadow: false
-                }
-            },
-            scrollbar: {
-                enabled: true
-            },
-            series: [{
-                name: '一导联',
-                data: [],
-                /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
-                turboThreshold: 10800
-            }]
-        });
-        $('#second_lead').highcharts({
-            chart: {
-                type: 'spline',
-                zoomType: "x",
-                height: 350
-            },
-            title: {
-                text: '二导联',
-                x: -20
-            },
-            xAxis: {
-                categories: [],
-            },
-            yAxis: {
-                title: {
-                    text: '二导联'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                /*鼠标浮在曲线上某个点时显示的内容*/
-                formatter: function () {
-                    return '<b>' + this.series.name + '<b> '
-                            +  this.x
-                            + '</b><br/> ' + this.y + '';
-
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            plotOptions: {
-                spline: {
-                    lineWidth: 1.5,
-                    fillOpacity: 0.1,
-                    marker: {
-                        enabled: false,
-                        states: {
-                            hover: {
-                                enabled: true,
-                                radius: 5
-                            }
-                        }
-                    },
-                    shadow: false
-                }
-            },
-            scrollbar: {
-                enabled: true
-            },
-            series: [{
-                name: '二导联',
-                data: [],
-                /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
-                turboThreshold: 10800
-            }]
-        });
-        $('#third_lead').highcharts({
-            chart: {
-                type: 'spline',
-                zoomType: "x",
-                height: 350
-            },
-            title: {
-                text: '三导联',
-                x: -20
-            },
-            xAxis: {
-                categories: [],
-            },
-            yAxis: {
-                title: {
-                    text: '三导联'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                /*鼠标浮在曲线上某个点时显示的内容*/
-                formatter: function () {
-                    return '<b>' + this.series.name + '<b> '
-                            +  this.x
-                            + '</b><br/> ' + this.y + '';
-
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            plotOptions: {
-                spline: {
-                    lineWidth: 1.5,
-                    fillOpacity: 0.1,
-                    marker: {
-                        enabled: false,
-                        states: {
-                            hover: {
-                                enabled: true,
-                                radius: 5
-                            }
-                        }
-                    },
-                    shadow: false
-                }
-            },
-            scrollbar: {
-                enabled: true
-            },
-            series: [{
-                name: '三导联',
-                data: [],
-                /*设置数据量显示阈值，此处设置3个小时的数据量60*60*3=10800，当超过阈值时显示会出问题，如果想显示的更多，则设置更大值*/
-                turboThreshold: 10800
-            }]
-        });
         query( $('#date').val(),"00:00","23:59");
     });
 
